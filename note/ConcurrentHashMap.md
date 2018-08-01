@@ -1,7 +1,10 @@
 <!-- GFM-TOC -->
 * [常量](#常量)
 * [put](#put)
+<<<<<<< HEAD
 * [get](#get)
+=======
+>>>>>>> 5235e778edcc1125bc55c512d95ea3bd1c0acdfb
 
 ### 常量
 ```java
