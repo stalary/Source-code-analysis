@@ -43,6 +43,7 @@ public synchronized E pop() {
 
 ### peek
 peek()方法获取栈顶元素，并不执行删除操作
+```java
 public synchronized E peek() {
     int     len = size();
 
@@ -51,6 +52,7 @@ public synchronized E peek() {
     // 返回数组末尾的元素
     return elementAt(len - 1);
 }
+```
 
 ### empty
 empty()方法检查栈是否为空
