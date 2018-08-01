@@ -42,7 +42,7 @@ public synchronized E pop() {
 ```
 
 ### peek
-peek()方法获取栈顶元素，并不执行删除操作
+peek()方法获取栈顶元素，并不执行删除操作。
 ```java
 public synchronized E peek() {
     int     len = size();
@@ -55,7 +55,7 @@ public synchronized E peek() {
 ```
 
 ### empty
-empty()方法检查栈是否为空
+empty()方法检查栈是否为空。
 ```java
 public boolean empty() {
     // 直接调用Vector提供的size()方法，没啥好说的
@@ -64,7 +64,7 @@ public boolean empty() {
 ```
 
 ### search
-如果参数中的对象o是栈中的元素，则此方法返回该元素距栈顶的距离（栈顶元素被认为距栈顶的距离为1）
+如果参数中的对象o是栈中的元素，则此方法返回该元素距栈顶的距离（栈顶元素被认为距栈顶的距离为1）。
 ```java
 public synchronized int search(Object o) {
     // 如果栈中含有多个对象o，则返回距栈顶最近的对象o的距离
