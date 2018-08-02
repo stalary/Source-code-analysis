@@ -11,7 +11,7 @@
 
 
 ### 介绍
-实现了Dequeu和List的双向链表
+实现了Deque和List的双向链表
 
 ### 常量
 ```java
