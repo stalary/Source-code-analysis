@@ -227,6 +227,17 @@ private void linkFirst(E e) {
     }
 ```
 
+### pop
+```java
+    // 弹出元素
+    public E pop() {
+        // 直接调用removeFirst方法，removeFirst进行判空，空抛出异常，然后调用unlinkFirst，上面已经注释过，不再解释
+        return removeFirst();
+    }
+```
+
+
+
 
 
 
