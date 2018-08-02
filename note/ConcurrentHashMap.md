@@ -7,7 +7,7 @@
 * [tryPresize](#tryPresize)
 
 ### 介绍
-一个支持并发查找和并发修改的hash表，方法与Hashtable一致，但是没有锁定整个hash表
+一个支持并发查找和并发修改的hash表，方法与HashTable一致，但是没有锁定整个hash表
 
 ### 常量
 ```java
@@ -32,7 +32,7 @@ static final int TREEIFY_THRESHOLD = 8;
 // 红黑树转化为链表的阈值，扩容时才可能发生
 static final int UNTREEIFY_THRESHOLD = 6;
 
-// 进行树化的最小容量，防止在调整容量和形态是发生冲突
+// 进行树化的最小容量，防止在调整容量和形态时发生冲突
 static final int MIN_TREEIFY_CAPACITY = 64;
 
 // 作为下界避免遇到过多的内存争用
