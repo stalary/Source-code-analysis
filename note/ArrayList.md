@@ -50,6 +50,9 @@ transient Object[] elementData;
 //最大容量，避免在某些虚拟机下可能引起的OutOfMemoryError
 private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
+//序列化的VersionUID
+private static final long serialVersionUID = 8683452581122892189L;
+
 ```
 
 ### 构造方法
@@ -418,5 +421,35 @@ public void sort(Comparator<? super E> c) {
     modCount++;
 }
 }
+
+//判空，直接看size就行了
+public boolean isEmpty() {
+    return size == 0;
+}
+
+//克隆，主要拷贝elementData数组
+public Object clone() {
+    try {
+        ArrayList<?> v = (ArrayList<?>) super.clone();
+        v.elementData = Arrays.copyOf(elementData, size);
+        v.modCount = 0;
+        return v;
+    } catch (CloneNotSupportedException e) {
+        // this shouldn't happen, since we are Cloneable
+        throw new InternalError(e);
+    }
+}
+
+//拷贝到新数组中，释放多余空间
+public void trimToSize() {
+    modCount++;
+    if (size < elementData.length) {
+        elementData = (size == 0)
+          ? EMPTY_ELEMENTDATA
+          : Arrays.copyOf(elementData, size);
+    }
+}
+
+
 ```
 
