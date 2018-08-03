@@ -8,4 +8,6 @@
 
 [LinkedList](https://github.com/stalary/Source-code-analysis/blob/master/note/LinkedList.md)
 
+[ArrayList] (https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayList.md)
+
 [Stack](https://github.com/stalary/Source-code-analysis/blob/master/note/Stack.md)
