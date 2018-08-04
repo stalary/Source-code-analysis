@@ -7,8 +7,8 @@
 * [tryPresize](#tryPresize)
 
 ### 介绍
-    - 线程安全
-    - 比Hashtable锁粒度更细
+  - 线程安全
+  - 比Hashtable锁粒度更细
 
 ### 常量
 ```java
