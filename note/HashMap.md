@@ -125,6 +125,7 @@ final Node<K,V> getNode(int hash, Object key) {
 ```
 
 ### resize
+```java
 final Node<K,V>[] resize() {
     Node<K,V>[] oldTab = table;
     int oldCap = (oldTab == null) ? 0 : oldTab.length;
@@ -215,3 +216,4 @@ final Node<K,V>[] resize() {
     }
     return newTab;
 }
+```
