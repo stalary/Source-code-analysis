@@ -1,17 +1,19 @@
-* [介绍](#介绍)
-* [常量](#常量)
-* [add](#add)
-* [remove](#remove)
-* [element](#element)
-* [offer](#offer)
-* [poll](#poll)
-* [peek](#peek)
-* [push](#push)
-* [pop](#pop)
+- [介绍](#介绍)
+- [常量](#常量)
+- [add](#add)
+- [remove](#remove)
+- [element](#element)
+- [offer](#offer)
+- [poll](#poll)
+- [peek](#peek)
+- [push](#push)
+- [pop](#pop)
 
 
 ### 介绍
-实现了Deque和List的双向链表
+  - 基于双向链表实现
+  - 线程不安全
+  - 插入删除效率较高，但不支持随机查找
 
 ### 常量
 ```java

@@ -1,13 +1,13 @@
-<!-- GFM-TOC -->
-* [介绍](#介绍)
-* [常量](#常量)
-* [put](#put)
-* [get](#get)
-* [transfer](#transfer)
-* [tryPresize](#tryPresize)
+- [介绍](#介绍)
+- [常量](#常量)
+- [put](#put)
+- [get](#get)
+- [transfer](#transfer)
+- [tryPresize](#tryPresize)
 
 ### 介绍
-一个支持并发查找和并发修改的hash表，方法与HashTable一致，但是没有锁定整个hash表
+  - 线程安全
+  - 比Hashtable锁粒度更细
 
 ### 常量
 ```java
