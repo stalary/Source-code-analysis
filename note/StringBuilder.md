@@ -1,7 +1,7 @@
 - [介绍](#%E4%BB%8B%E7%BB%8D)
 - [常量](#%E5%B8%B8%E9%87%8F)
 - [append](#append)
-- [delete](#%08delete)
+- [delete](#delete)
 - [insert](#insert)
 - [reverse](#reverse)
 - [toString](#tostring)
@@ -85,7 +85,7 @@ int count;
     }
 ```
 
-### delete
+### delete
 ```java
     // 删除某一范围内的字符
     public StringBuilder delete(int start, int end) {
