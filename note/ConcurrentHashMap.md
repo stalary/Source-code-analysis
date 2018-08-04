@@ -1,10 +1,9 @@
-<!-- GFM-TOC -->
-* [介绍](#介绍)
-* [常量](#常量)
-* [put](#put)
-* [get](#get)
-* [transfer](#transfer)
-* [tryPresize](#tryPresize)
+- [介绍](#介绍)
+- [常量](#常量)
+- [put](#put)
+- [get](#get)
+- [transfer](#transfer)
+- [tryPresize](#tryPresize)
 
 ### 介绍
   - 线程安全
