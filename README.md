@@ -2,6 +2,8 @@
 
 ### java源码分析
 #### 集合
+[Collections](https://github.com/stalary/Source-code-analysis/blob/master/note/Collections.md)
+
 [ConcurrentHashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/ConcurrentHashMap.md)
 
 [HashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/HashMap.md)
