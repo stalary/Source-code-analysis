@@ -1,6 +1,6 @@
 - [介绍](#%E4%BB%8B%E7%BB%8D)
 - [sort](#sort)
-- [binarySearch](#%1Bbinarysearch)
+- [binarySearch](#binarysearch)
 - [reverse](#reverse)
 - [fill](#fill)
 - [min](#min)
@@ -183,7 +183,7 @@
     }
 ```
 
-### binarySearch
+### binarySearch
 ```java
     public static <T> int binarySearch(List<? extends Comparable<? super T>> list, T key) {
         // 当list为随机访问列表或者长度小于5000时，使用索引二叉搜索
