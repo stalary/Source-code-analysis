@@ -423,7 +423,7 @@
         // 当源list长度小于35或源list和目标list都是随机访问列表时
         if (sourceSize < INDEXOFSUBLIST_THRESHOLD ||
             (source instanceof RandomAccess&&target instanceof RandomAccess)) {
-        // 当元素不相同时直接跳出，继续判断下一个元素，当满足条件时，则返回maxCandidate
+        // 当元素不相同时直接跳出，继续判断下一个元素，当满足条件时，则返回maxCandidate
         nextCand:
             for (int candidate = 0; candidate <= maxCandidate; candidate++) {
                 for (int i=0, j=candidate; i<targetSize; i++, j++)
