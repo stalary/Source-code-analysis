@@ -8,7 +8,7 @@
 - [replaceAll](#replaceall)
 ### 介绍
 ```java
-    /** 一些算法所用到的常量，主要是一些阈值 **/
+    /** 一些算法所用到的常量，主要是些阈值 **/
     private static final int BINARYSEARCH_THRESHOLD   = 5000;
     private static final int REVERSE_THRESHOLD        =   18;
     private static final int SHUFFLE_THRESHOLD        =    5;
@@ -21,7 +21,7 @@
 
 ### sort
 ```java
-    // 排序，传入集合和比较器
+    // 排序，传入集合和比较器
     public static <T> void sort(List<T> list, Comparator<? super T> c) {
         // 直接调用list的排序方法
         list.sort(c);
@@ -34,7 +34,7 @@
         Object[] a = this.toArray();
         // 调用Arrays的排序方法
         Arrays.sort(a, (Comparator) c);
-        // 迭代添加排好序的元素
+        // 迭代添加排好序的元素
         ListIterator<E> i = this.listIterator();
         for (Object e : a) {
             i.next();
