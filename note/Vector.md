@@ -3,7 +3,6 @@
 - [删除](#删除)
 - [查找](#查找)
 - [修改](#修改)
-- [其他](#其他)
 
 ### 介绍
 - Vector是矢量队列，继承于AbstractList，实现了List, RandomAccess, Cloneable和Serializable接口
@@ -69,6 +68,7 @@ public synchronized E remove(int index) {
     // 将Vector最后一个元素设置为null（以便进行gc），然后将Vector元素数量减1
     elementData[--elementCount] = null;
 
+    // 返回index处原先的值
     return oldValue;
 }
 ```
@@ -81,15 +81,55 @@ public boolean remove(Object o) {
 }
 ```
 
+```java
 public synchronized boolean removeElement(Object obj) {
     modCount++;
-    // 获取元素obj的索引，根据indexOf的源码，若Vector中存在多个obj，将返回遍历Vector得到的第一个obj的索引
+    // 获取元素obj的索引
+    // 根据indexOf的源码，若Vector中存在多个obj，将返回遍历Vector得到的第一个obj的索引
     int i = indexOf(obj);
     // 若元素obj存在
     if (i >= 0) {
-    
+        // 调用removeElementAt删除指定索引的元素
+        // removeElementAt方法与上面的remove(int index)方法基本一致
         removeElementAt(i);
         return true;
     }
     return false;
 }
+```
+
+### 查找
+get方法获取指定index处的元素
+```java
+public synchronized E get(int index) {
+    if (index >= elementCount)
+        throw new ArrayIndexOutOfBoundsException(index);
+
+    // 直接调用elementData方法
+    return elementData(index);
+}
+```
+
+```java
+E elementData(int index) {
+    // 返回elementData[index]，直截了当
+    return (E) elementData[index];
+}
+```
+
+### 修改
+set方法可以修改index处的元素
+```java
+public synchronized E set(int index, E element) {
+    if (index >= elementCount)
+        throw new ArrayIndexOutOfBoundsException(index);
+
+    // 获取index处原先的值
+    E oldValue = elementData(index);
+
+    // 将element赋值给elementData[index]
+    elementData[index] = element;
+    // 返回index处原先的值
+    return oldValue;
+}
+```
