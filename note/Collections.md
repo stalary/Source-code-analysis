@@ -6,6 +6,7 @@
 - [min](#min)
 - [rotate](#rotate)
 - [replaceAll](#replaceall)
+- [indexOfSubList](#indexofsublist)
 ### 介绍
 ```java
     /** 一些算法所用到的常量，主要是些阈值 **/
@@ -408,5 +409,45 @@
             }
         }
         return result;
+    }
+```
+
+### indexOfSubList
+```java
+    // 查找子字符串的下标
+    public static int indexOfSubList(List<?> source, List<?> target) {
+        int sourceSize = source.size();
+        int targetSize = target.size();
+        // 最大下标
+        int maxCandidate = sourceSize - targetSize;
+        // 当源list长度小于35或源list和目标list都是随机访问列表时
+        if (sourceSize < INDEXOFSUBLIST_THRESHOLD ||
+            (source instanceof RandomAccess&&target instanceof RandomAccess)) {
+        // 当元素不相同时直接跳出，继续判断下一个元素，当满足条件时，则返回maxCandidate
+        nextCand:
+            for (int candidate = 0; candidate <= maxCandidate; candidate++) {
+                for (int i=0, j=candidate; i<targetSize; i++, j++)
+                    if (!eq(target.get(i), source.get(j)))
+                        continue nextCand;  // Element mismatch, try next cand
+                return candidate;  // All elements of candidate matched target
+            }
+        } else {  // Iterator version of above algorithm
+            ListIterator<?> si = source.listIterator();
+        nextCand:
+            for (int candidate = 0; candidate <= maxCandidate; candidate++) {
+                ListIterator<?> ti = target.listIterator();
+                for (int i=0; i<targetSize; i++) {
+                    if (!eq(ti.next(), si.next())) {
+                        // Back up source iterator to next candidate
+                        for (int j=0; j<i; j++)
+                            si.previous();
+                        continue nextCand;
+                    }
+                }
+                return candidate;
+            }
+        }
+        // 未匹配时返回-1
+        return -1;  // No candidate matched the target
     }
 ```
