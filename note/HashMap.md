@@ -34,7 +34,9 @@ public V put(K key, V value) {
     // 求出key的hash值，并直接调用putVal
     return putVal(hash(key), key, value, false, true);
 }
+```
 
+```java
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                    boolean evict) {
     Node<K,V>[] tab; Node<K,V> p; int n, i;
@@ -98,7 +100,9 @@ public V get(Object key) {
     // 求出key的hash值，并直接调用getNode
     return (e = getNode(hash(key), key)) == null ? null : e.value;
 }
+```
 
+```java
 final Node<K,V> getNode(int hash, Object key) {
     Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
     // 当table不为空，并且经过计算得到的插入位置table[i]也不为空时继续操作，否则返回null
