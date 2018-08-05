@@ -4,6 +4,8 @@
 #### 集合
 [Collections](https://github.com/stalary/Source-code-analysis/blob/master/note/Collections.md)
 
+[Arrays](https://github.com/stalary/Source-code-analysis/blob/master/note/Arrays.md)
+
 [ConcurrentHashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/ConcurrentHashMap.md)
 
 [HashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/HashMap.md)
