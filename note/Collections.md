@@ -1,3 +1,11 @@
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [sort](#sort)
+- [binarySearch](#binarysearch)
+- [reverse](#reverse)
+- [fill](#fill)
+- [min](#min)
+- [rotate](#rotate)
+- [replaceAll](#replaceall)
 ### 介绍
 ```java
     /** 一些算法所用到的常量，主要是一些阈值 **/
