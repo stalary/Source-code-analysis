@@ -1,6 +1,6 @@
 - [介绍](#%E4%BB%8B%E7%BB%8D)
 - [sort](#sort)
-- [binarySearch](#binarysearch)
+- [arch](#%1Barch)
 - [reverse](#reverse)
 - [fill](#fill)
 - [min](#min)
@@ -113,7 +113,7 @@
 
         // Merge all remaining runs to complete sort
         assert lo == hi;
-        // 归并所有的run
+        // 归并所有的run
         ts.mergeForceCollapse();
         assert ts.stackSize == 1;
     }
@@ -183,10 +183,10 @@
     }
 ```
 
-### binarySearch
+### arch
 ```java
     public static <T> int binarySearch(List<? extends Comparable<? super T>> list, T key) {
-        // 当list为随机访问列表或者长度小于5000时，使用索引二叉搜索
+        // 当list为随机访问列表或者长度小于5000时，使用索引二叉搜索
         if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
             return Collections.indexedBinarySearch(list, key);
         else
@@ -207,7 +207,7 @@
             Comparable<? super T> midVal = list.get(mid);
             // 指定元素与中间值的大小比较
             int cmp = midVal.compareTo(key);
-            // 更新上界和下界，缩小查找范围
+            // 更新上界和下界，缩小查找范围
             if (cmp < 0)
                 low = mid + 1;
             else if (cmp > 0)
