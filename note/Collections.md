@@ -11,7 +11,7 @@
     private static final int INDEXOFSUBLIST_THRESHOLD =   35;
 ```
 
-### 
+### sort
 ```java
     // 排序，传入集合和比较器
     public static <T> void sort(List<T> list, Comparator<? super T> c) {
@@ -175,3 +175,230 @@
     }
 ```
 
+### binarySearch
+```java
+    public static <T> int binarySearch(List<? extends Comparable<? super T>> list, T key) {
+        // 当list为随机访问列表或者长度小于5000时，使用索引二叉搜索
+        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
+            return Collections.indexedBinarySearch(list, key);
+        else
+            // 否则使用迭代二叉搜索
+            return Collections.iteratorBinarySearch(list, key);
+    }
+```
+
+```java
+    // 索引二叉搜索
+    private static <T> int indexedBinarySearch(List<? extends Comparable<? super T>> list, T key) {
+        int low = 0;
+        int high = list.size()-1;
+
+        while (low <= high) {
+            // 获取中间值
+            int mid = (low + high) >>> 1;
+            Comparable<? super T> midVal = list.get(mid);
+            // 指定元素与中间值的大小比较
+            int cmp = midVal.compareTo(key);
+            // 更新上界和下界，缩小查找范围
+            if (cmp < 0)
+                low = mid + 1;
+            else if (cmp > 0)
+                high = mid - 1;
+            else
+                return mid; // key found
+        }
+        // 当为查找到时，返回负的最小下标+1
+        return -(low + 1);  // key not found
+    }
+```
+
+```java
+    // 迭代器二叉搜索
+    private static <T> int iteratorBinarySearch(List<? extends Comparable<? super T>> list, T key)
+    {
+        int low = 0;
+        int high = list.size()-1;
+        // 与索引搜索不同，使用迭代器
+        ListIterator<? extends Comparable<? super T>> i = list.listIterator();
+
+        while (low <= high) {
+            int mid = (low + high) >>> 1;
+            Comparable<? super T> midVal = get(i, mid);
+            int cmp = midVal.compareTo(key);
+
+            if (cmp < 0)
+                low = mid + 1;
+            else if (cmp > 0)
+                high = mid - 1;
+            else
+                return mid; // key found
+        }
+        return -(low + 1);  // key not found
+    }
+```
+
+### reverse
+```java
+    public static void reverse(List<?> list) {
+        int size = list.size();
+        // 当数量小于18或者为随机访问列表时，直接对头尾依此交换
+        if (size < REVERSE_THRESHOLD || list instanceof RandomAccess) {
+            for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+                swap(list, i, j);
+        } else {
+            // instead of using a raw type here, it's possible to capture
+            // the wildcard but it will require a call to a supplementary
+            // private method
+            // 使用迭代器进行交换
+            ListIterator fwd = list.listIterator();
+            ListIterator rev = list.listIterator(size);
+            for (int i=0, mid=list.size()>>1; i<mid; i++) {
+                Object tmp = fwd.next();
+                fwd.set(rev.previous());
+                rev.set(tmp);
+            }
+        }
+    }
+```
+
+### fill
+```java
+    // 将元素填入list每一个位置
+    public static <T> void fill(List<? super T> list, T obj) {
+        int size = list.size();
+        // 当数量小于25并且时是随机访问列表时，直接使用set进行赋值
+        if (size < FILL_THRESHOLD || list instanceof RandomAccess) {
+            for (int i=0; i<size; i++)
+                list.set(i, obj);
+        } else {
+            // 使用迭代器进行赋值
+            ListIterator<? super T> itr = list.listIterator();
+            for (int i=0; i<size; i++) {
+                itr.next();
+                itr.set(obj);
+            }
+        }
+    }
+```
+
+### min
+```java
+    // 求最小值，最大值类似
+    public static <T extends Object & Comparable<? super T>> T min(Collection<? extends T> coll) {
+        Iterator<? extends T> i = coll.iterator();
+        T candidate = i.next();
+        // 依次进行比较，选出最小的元素
+        while (i.hasNext()) {
+            T next = i.next();
+            if (next.compareTo(candidate) < 0)
+                candidate = next;
+        }
+        return candidate;
+    }
+```
+
+### rotate
+```java
+    // 翻转一定距离
+    public static void rotate(List<?> list, int distance) {
+        // 为随机访问列表或者数量小于100时
+        if (list instanceof RandomAccess || list.size() < ROTATE_THRESHOLD)
+            rotate1(list, distance);
+        else
+            rotate2(list, distance);
+    }
+```
+
+```java
+    private static <T> void rotate1(List<T> list, int distance) {
+        int size = list.size();
+        if (size == 0)
+            return;
+        // 将过长距离缩短
+        distance = distance % size;
+        // 将过短的距离增加
+        if (distance < 0)
+            distance += size;
+        if (distance == 0)
+            return;
+        // 将元素进行移动distance距离
+        for (int cycleStart = 0, nMoved = 0; nMoved != size; cycleStart++) {
+            T displaced = list.get(cycleStart);
+            int i = cycleStart;
+            do {
+                i += distance;
+                // 将后半部分元素前移动
+                if (i >= size)
+                    i -= size;
+                displaced = list.set(i, displaced);
+                nMoved ++;
+            } while (i != cycleStart);
+        }
+    }
+```
+
+```java
+    private static void rotate2(List<?> list, int distance) {
+        int size = list.size();
+        if (size == 0)
+            return;
+        int mid =  -distance % size;
+        // 防止越界
+        if (mid < 0)
+            mid += size;
+        if (mid == 0)
+            return;
+        // 通过mid进行划分，分别逆置
+        reverse(list.subList(0, mid));
+        reverse(list.subList(mid, size));
+        // 逆置所有元素
+        reverse(list);
+    }
+```
+
+### replaceAll
+```java
+    public static <T> boolean replaceAll(List<T> list, T oldVal, T newVal) {
+        boolean result = false;
+        int size = list.size();
+        // 当大小小于11或者为随机访问列表时
+        if (size < REPLACEALL_THRESHOLD || list instanceof RandomAccess) {
+            // 老的值为空时
+            if (oldVal==null) {
+                // 遍历修改值
+                for (int i=0; i<size; i++) {
+                    if (list.get(i)==null) {
+                        list.set(i, newVal);
+                        result = true;
+                    }
+                }
+            } else {
+                // 当不为空时，通过equals判断是否相等，然后遍历赋值
+                for (int i=0; i<size; i++) {
+                    if (oldVal.equals(list.get(i))) {
+                        list.set(i, newVal);
+                        result = true;
+                    }
+                }
+            }
+        } else {
+            ListIterator<T> itr=list.listIterator();
+            if (oldVal==null) {
+                for (int i=0; i<size; i++) {
+                    if (itr.next()==null) {
+                        itr.set(newVal);
+                        result = true;
+                    }
+                }
+            } else {
+                for (int i=0; i<size; i++) {
+                    if (oldVal.equals(itr.next())) {
+                        itr.set(newVal);
+                        result = true;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+```
