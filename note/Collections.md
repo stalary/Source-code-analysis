@@ -63,7 +63,7 @@
     static <T> void sort(T[] a, int lo, int hi, Comparator<? super T> c,
                          T[] work, int workBase, int workLen) {
         assert c != null && a != null && lo >= 0 && lo <= hi && hi <= a.length;
-        // 需要排序的的元素
+        // 需要排序的元素
         int nRemaining  = hi - lo;
         // 当小于2时代表不需要排序
         if (nRemaining < 2)
@@ -151,7 +151,7 @@
              *   pivot >= all in [lo, left).
              *   pivot <  all in [right, start).
              */
-             // 使用二分进行缩小排序范围
+             // 使用二分进行缩小排序范围
             while (left < right) {
                 int mid = (left + right) >>> 1;
                 if (c.compare(pivot, a[mid]) < 0)
@@ -215,7 +215,7 @@
             else
                 return mid; // key found
         }
-        // 当为查找到时，返回负的最小下标+1
+        // 当为查找到时，返回负的最小下标+1
         return -(low + 1);  // key not found
     }
 ```
@@ -249,7 +249,7 @@
 ```java
     public static void reverse(List<?> list) {
         int size = list.size();
-        // 当数量小于18或者为随机访问列表时，直接对头尾依此交换
+        // 当数量小于18或者为随机访问列表时，直接对头尾依次交换
         if (size < REVERSE_THRESHOLD || list instanceof RandomAccess) {
             for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
                 swap(list, i, j);
@@ -271,10 +271,10 @@
 
 ### fill
 ```java
-    // 将元素填入list每一个位置
+    // 将元素填入list每一个位置
     public static <T> void fill(List<? super T> list, T obj) {
         int size = list.size();
-        // 当数量小于25并且时是随机访问列表时，直接使用set进行赋值
+        // 当数量小于25并且时是随机访问列表时，直接使用set进行赋值
         if (size < FILL_THRESHOLD || list instanceof RandomAccess) {
             for (int i=0; i<size; i++)
                 list.set(i, obj);
@@ -295,7 +295,7 @@
     public static <T extends Object & Comparable<? super T>> T min(Collection<? extends T> coll) {
         Iterator<? extends T> i = coll.iterator();
         T candidate = i.next();
-        // 依次进行比较，选出最小的元素
+        // 依次进行比较，选出最小的元素
         while (i.hasNext()) {
             T next = i.next();
             if (next.compareTo(candidate) < 0)
@@ -307,7 +307,7 @@
 
 ### rotate
 ```java
-    // 翻转一定距离
+    // 翻转一定距离
     public static void rotate(List<?> list, int distance) {
         // 为随机访问列表或者数量小于100时
         if (list instanceof RandomAccess || list.size() < ROTATE_THRESHOLD)
