@@ -21,7 +21,7 @@
 
 ### 常量
 
-```
+```java
 //元素个数，并不一定是容量
 private int size;
 
@@ -57,7 +57,7 @@ private static final long serialVersionUID = 8683452581122892189L;
 
 ### 构造方法
 
-```
+```java
 
 //默认构造个空list
 public ArrayList() {
@@ -96,7 +96,7 @@ public ArrayList(Collection<? extends E> c) {
 
 ### 容量相关
 
-```
+```java
 //给用户使用，确保容量，指定的容量要大于默认容量
 public void ensureCapacity(int minCapacity) {
     int minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)
@@ -154,7 +154,7 @@ private static int hugeCapacity(int minCapacity) {
 ```
 ### 添加
 
-```
+```java
 //加到最后。O(1)
 public boolean add(E e) {
     ensureCapacityInternal(size + 1);  // Increments modCount!!
@@ -214,7 +214,7 @@ private void rangeCheckForAdd(int index) {
 
 ### 删除
 
-```
+```java
 //删除指定位置元素并返回 O(n)
 public E remove(int index) {
     rangeCheck(index);
@@ -338,7 +338,7 @@ public void clear() {
 
 ### 查找
 
-```
+```java
 //获取指定位置元素
 public E get(int index) {
     rangeCheck(index);
@@ -386,7 +386,7 @@ public boolean contains(Object o) {
 
 ### 修改
 
-```
+```java
 
 //修改指定位置元素
 public E set(int index, E element) {
@@ -400,7 +400,7 @@ public E set(int index, E element) {
 
 ### 其他
 
-```
+```java
 /*
 取子list,返回Sublist这个ArrayList的内部类,
 这是个坑，注意SubList和其他List实现类的区别
