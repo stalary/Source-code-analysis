@@ -7,6 +7,10 @@
 - [rotate](#rotate)
 - [replaceAll](#replaceall)
 - [indexOfSubList](#indexofsublist)
+- [copy](#copy)
+- [nCopies](#ncopies)
+- [frequency](#frequency)
+- [synchronizedCollection](#synchronizedcollection)
 ### 介绍
 ```java
     /** 一些算法所用到的常量，主要是些阈值 **/
@@ -449,5 +453,70 @@
         }
         // 未匹配时返回-1
         return -1;  // No candidate matched the target
+    }
+```
+
+### copy
+```java
+    public static <T> void copy(List<? super T> dest, List<? extends T> src) {
+        // 源list长度
+        int srcSize = src.size();
+        // 当源list长度大于目标list长度时，直接抛出
+        if (srcSize > dest.size())
+            throw new IndexOutOfBoundsException("Source does not fit in dest");
+        // 当源list长度小于10或者两个list都是随机访问列表时
+        if (srcSize < COPY_THRESHOLD ||
+            (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+            // 遍历赋值
+            for (int i=0; i<srcSize; i++)
+                dest.set(i, src.get(i));
+        } else {
+            // 使用迭代器进行赋值
+            ListIterator<? super T> di=dest.listIterator();
+            ListIterator<? extends T> si=src.listIterator();
+            for (int i=0; i<srcSize; i++) {
+                di.next();
+                di.set(si.next());
+            }
+        }
+    }
+```
+
+### nCopies
+```java
+    // 生成一个含有n个o的不可变list
+    public static <T> List<T> nCopies(int n, T o) {
+        // n小于0时直接抛出
+        if (n < 0)
+            throw new IllegalArgumentException("List length = " + n);
+        // 生成一个复制list(无set方法)
+        return new CopiesList<>(n, o);
+    }
+```
+
+### frequency
+```java
+    // 求list中某一元素的出现频率
+    public static int frequency(Collection<?> c, Object o) {
+        int result = 0;
+        // 当对象为null时直接判断null的数量，否则使用equals进行判断
+        if (o == null) {
+            for (Object e : c)
+                if (e == null)
+                    result++;
+        } else {
+            for (Object e : c)
+                if (o.equals(e))
+                    result++;
+        }
+        return result;
+    }
+```
+
+### synchronizedCollection
+```java
+    // 返回一个被synchronized包装的集合，方法全部使用synchronized怼代码块加锁
+    public static <T> Collection<T> synchronizedCollection(Collection<T> c) {
+        return new SynchronizedCollection<>(c);
     }
 ```
