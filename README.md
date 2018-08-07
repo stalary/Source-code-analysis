@@ -2,7 +2,10 @@
 
 ### java源码分析
 #### 集合
+
 [Arrays](https://github.com/stalary/Source-code-analysis/blob/master/note/Arrays.md)
+
+[ArrayDeque](https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayDeque.md)
 
 [ArrayList](https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayList.md)
 
