@@ -41,7 +41,7 @@
             int len = elements.length;
             // 扩容拷贝数组
             Object[] newElements = Arrays.copyOf(elements, len + 1);
-            // 将新数组的最后一个元素设置为e
+            // 将新数组的最后一个元素设置为e
             newElements[len] = e;
             // 赋值给数组
             setArray(newElements);
