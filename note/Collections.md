@@ -1,4 +1,5 @@
 - [介绍](#%E4%BB%8B%E7%BB%8D)
+- [常量](#%E5%B8%B8%E9%87%8F)
 - [sort](#sort)
 - [binarySearch](#binarysearch)
 - [reverse](#reverse)
@@ -12,6 +13,9 @@
 - [frequency](#frequency)
 - [synchronizedCollection](#synchronizedcollection)
 ### 介绍
+- 提供一些集合常用方法
+
+### 常量
 ```java
     /** 一些算法所用到的常量，主要是些阈值 **/
     private static final int BINARYSEARCH_THRESHOLD   = 5000;
