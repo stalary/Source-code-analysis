@@ -2,11 +2,11 @@
 - [常量](#常量)
 - [构造器和容量相关](#构造器和容量相关)
 - [size](#size)
-- [add&offer](#add&offer)
-- [poll&remove](#poll&remove)
-- [get&element&peek](#get&element&peek)
+- [add&offer](#addoffer)
+- [poll&remove](#pollremove)
+- [get&element&peek](#getelementpeek)
 - [clear](#clear)
-- [Stack](#Stack)
+- [stack](#stack)
 
 ### 介绍
 - 线程不安全。队列里不许有空元素
@@ -280,7 +280,7 @@ public void clear() {
 
 
 ```
-### Stack
+### stack
 
 ```
 //查看栈顶
