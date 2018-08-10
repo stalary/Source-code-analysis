@@ -9,6 +9,8 @@
 
 [ArrayList](https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayList.md)
 
+[ArrayBlockingQueue](https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayBlockingQueue.md)
+
 [CopyOnWriteArrayList](https://github.com/stalary/Source-code-analysis/blob/master/note/CopyOnWriteArrayList.md)
 
 [Collections](https://github.com/stalary/Source-code-analysis/blob/master/note/Collections.md)
