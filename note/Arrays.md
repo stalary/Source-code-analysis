@@ -1,13 +1,13 @@
 - [介绍](#介绍)
 - [常量](#常量)
-- [rangeCheck](#rangeCheck)
+- [rangeCheck](#rangecheck)
 - [sort](#sort)
-- [parallelSort](#parallelSort)
-- [equals&deepEquals](#equals&deepEquals)
+- [parallelSort](#parallelsort)
+- [equals&deepEquals](#equalsdeepequals)
 - [fill](#fill)
-- [asList](#asList)
-- [binarySearch](#binarySearch)
-- [copyOf](#copyOf)
+- [asList](#aslist)
+- [binarySearch](#binarysearch)
+- [copyOf](#copyof)
 
 
 ### 介绍
