@@ -1,8 +1,8 @@
 - [介绍](#介绍)
 - [const](#const)
 - [constructor](#constructor)
-- [addAll](#addAll)
-- [subSet、headSet、tailSet](#subSetheadSettailSet)
+- [addAll](#addall)
+- [subSet、headSet、tailSet](#subsetheadsettailset)
 - [导航(索引)方法](#导航索引方法)
 
 ### 介绍
