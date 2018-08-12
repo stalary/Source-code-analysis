@@ -2,8 +2,8 @@
 - [const](#const)
 - [constructor](#constructor)
 - [addAll](#addAll)
-- [subSet、headSet、tailSet](#subSet、headSet、tailSet)
-- [导航(索引)方法](#导航(索引)方法)
+- [subSet、headSet、tailSet](#subSetheadSettailSet)
+- [导航(索引)方法](#导航索引方法)
 
 ### 介绍
 
