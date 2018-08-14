@@ -1,3 +1,11 @@
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [常量](#%E5%B8%B8%E9%87%8F)
+- [put](#put)
+- [take](#take)
+- [offer](#offer)
+- [poll](#poll)
+- [peek](#peek)
+- [size](#size)
 ### 介绍
 - 基于数组实现的阻塞队列
 - 线程安全，基于ReentrantLock实现
