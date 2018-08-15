@@ -1,3 +1,13 @@
+- [介绍](#介绍)
+- [常量](#常量)
+- [构造](#构造)
+- [is](#is)
+- [get](#get)
+- [list](#list)
+- [toString](#tostring)
+- [其他](#其他)
+
+
 ### 介绍
 - File类
 
@@ -42,7 +52,7 @@ public static final char separatorChar = fs.getSeparator();
 
 ```
 
-//给定路径名，转换为抽象路径名构造
+//给定路径名，转换为抽象路径名
 public File(String pathname) {
     if (pathname == null) {
         throw new NullPointerException();
@@ -143,7 +153,7 @@ public String getAbsolutePath() {
     return fs.resolve(this);
 }
 
-//返回由此抽象路径名表示的文件或目录的名称，仅仅是文件名
+//返回由此抽象路径名表示的文件或目录的名称，仅仅是目录或文件名
 public String getName() {
     //查找最后一个分隔符
     int index = path.lastIndexOf(separatorChar);
@@ -163,6 +173,16 @@ public String getParent() {
     return path.substring(0, index);
 }
 
+//获取绝对路径
+public String getAbsolutePath() {
+    return fs.resolve(this);
+}
+
+//相当于new File(this.getAbsolutePath())
+public File getAbsoluteFile() {
+    String absPath = getAbsolutePath();
+    return new File(absPath, fs.prefixLength(absPath));
+}
 
 
 
@@ -173,7 +193,7 @@ public String getParent() {
 
 ```
 
-//返回目录下面的文件path
+//返回目录下面的path
 public String[] list() {
     SecurityManager security = System.getSecurityManager();
     if (security != null) {
@@ -185,7 +205,20 @@ public String[] list() {
     return fs.list(this);
 }
 
-
+//根据Filter进行过滤，需要自己实现FilenameFilter接口
+public String[] list(FilenameFilter filter) {
+    String names[] = list();
+    if ((names == null) || (filter == null)) {
+        return names;
+    }
+    List<String> v = new ArrayList<>();
+    for (int i = 0 ; i < names.length ; i++) {
+        if (filter.accept(this, names[i])) {
+            v.add(names[i]);
+        }
+    }
+    return v.toArray(new String[v.size()]);
+}
 ```
 
 
@@ -202,6 +235,39 @@ public String toString() {
 ### 其他
 
 ```
+//创建一个目录
+public boolean mkdir() {
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+        security.checkWrite(path);
+    }
+    if (isInvalid()) {
+        return false;
+    }
+    return fs.createDirectory(this);
+}
+
+//该路径名所抽象的File不存在的话，创建一个空文件
+public boolean createNewFile() throws IOException {
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) security.checkWrite(path);
+    if (isInvalid()) {
+        throw new IOException("Invalid file path");
+    }
+    return fs.createFileExclusively(path);
+}
+
+//删除目录或文件，如果是目录，必须保证为空
+public boolean delete() {
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+        security.checkDelete(path);
+    }
+    if (isInvalid()) {
+        return false;
+    }
+    return fs.delete(this);
+}
 
 
 ```
