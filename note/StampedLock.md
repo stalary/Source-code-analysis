@@ -1,3 +1,19 @@
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [常量](#%E5%B8%B8%E9%87%8F)
+- [writeLock](#writelock)
+- [tryWriteLock](#trywritelock)
+- [readLock](#readlock)
+- [tryReadLock](#tryreadlock)
+- [tryOptimisticRead](#tryoptimisticread)
+- [validate](#validate)
+- [unlock](#unlock)
+- [unlockWrite](#unlockwrite)
+- [tryUnlockWrite](#tryunlockwrite)
+- [unlockRead](#unlockread)
+- [tryUnlockRead](#tryunlockread)
+- [tryConvertToWriteLock](#tryconverttowritelock)
+- [tryConvertToReadLock](#tryconverttoreadlock)
+- [tryConvertToOptimisticRead](#tryconverttooptimisticread)
 ### 介绍
 - 三种模式
     - 写
@@ -217,7 +233,7 @@ private transient int readerOverflow;
             if (m < RFULL) {
                 // cas修改状态
                 if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
-                    // 修改成功后释放锁
+                    // 修改成功后释放锁
                     if (m == RUNIT && (h = whead) != null && h.status != 0)
                         release(h);
                     break;
@@ -232,11 +248,11 @@ private transient int readerOverflow;
 
 ### tryUnlockRead
 ```java
-    // 尝试释放读锁，如果持有读锁，释放读锁，返回true，否则返回false
+    // 尝试释放读锁，如果持有读锁，释放读锁，返回true，否则返回false
     public boolean tryUnlockRead() {
         long s, m; WNode h;
         while ((m = (s = state) & ABITS) != 0L && m < WBIT) {
-            // 当读锁未满时，cas进行释放锁
+            // 当读锁未满时，cas进行释放锁
             if (m < RFULL) {
                 if (U.compareAndSwapLong(this, STATE, s, s - RUNIT)) {
                     if (m == RUNIT && (h = whead) != null && h.status != 0)
@@ -269,7 +285,7 @@ private transient int readerOverflow;
             // 持有写锁
             else if (m == WBIT) {
                 if (a != m)
-                    // 表示其他线程持有，直接返回0，代表转化失败
+                    // 表示其他线程持有，直接返回0，代表转化失败
                     break;
                 // 返回当前戳
                 return stamp;
@@ -304,14 +320,14 @@ private transient int readerOverflow;
                     if (U.compareAndSwapLong(this, STATE, s, next = s + RUNIT))
                         return next;
                 }
-                // 否则增加readerOverflow，持有读锁
+                // 否则增加readerOverflow，持有读锁
                 else if ((next = tryIncReaderOverflow(s)) != 0L)
                     return next;
             }
-            // 持有写锁
+            // 持有写锁
             else if (m == WBIT) {
                 if (a != m)
-                    // 非当前线程持有，返回0
+                    // 非当前线程持有，返回0
                     break;
                 // 释放写锁，持有读锁
                 state = next = s + (WBIT + RUNIT);
@@ -341,7 +357,7 @@ private transient int readerOverflow;
             // 当没有锁时
             if ((m = s & ABITS) == 0L) {
                 if (a != 0L)
-                    // 其他线程持有锁时直接返回0
+                    // 其他线程持有锁时直接返回0
                     break;
                 // 返回戳
                 return s;
@@ -377,11 +393,11 @@ private transient int readerOverflow;
 ```
 
 ```java
-    // 当读锁满时，将readerOverflow增加，否则直接返回戳
+    // 当读锁满时，将readerOverflow增加，否则直接返回戳
     private long tryIncReaderOverflow(long s) {
         // 读锁数量到达临界点
         if ((s & ABITS) == RFULL) {
-            // cas获取读锁
+            // cas获取读锁
             if (U.compareAndSwapLong(this, STATE, s, s | RBITS)) {
                 // 增加readerOverflow
                 ++readerOverflow;
@@ -394,8 +410,9 @@ private transient int readerOverflow;
                   OVERFLOW_YIELD_RATE) == 0)
             // 放弃cpu资源
             Thread.yield();
-        // 当未满时，返回0，代表增加溢出变量失败
+        // 当未满时，返回0
         return 0L;
     }
 ```
+
 
