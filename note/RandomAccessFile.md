@@ -18,7 +18,7 @@
         // 当file不为空时，获取文件的路径
         String name = (file != null ? file.getPath() : null);
         int imode = -1;
-        // 只读方式打开
+        // 只读方式打开
         if (mode.equals("r"))
             imode = O_RDONLY;
         // 读写模式，文件不存在，则尝试创建该文件
@@ -42,7 +42,7 @@
                                                + "\" must be one of "
                                                + "\"r\", \"rw\", \"rws\","
                                                + " or \"rwd\"");
-        // 安全管理器，检测操作是否合法
+        // 安全管理器，检测操作是否合法
         SecurityManager security = System.getSecurityManager();
         if (security != null) {
             // 读检测
@@ -56,7 +56,7 @@
         if (name == null) {
             throw new NullPointerException();
         }
-        // 文件非法，抛出非法路径异常
+        // 文件非法，抛出非法路径异常
         if (file.isInvalid()) {
             throw new FileNotFoundException("Invalid file path");
         }
