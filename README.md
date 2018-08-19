@@ -37,6 +37,8 @@
 
 [File](https://github.com/stalary/Source-code-analysis/blob/master/note/File.md)
 
+[InputStreamReader](https://github.com/stalary/Source-code-analysis/blob/master/note/InputStreamReader.md)
+
 [RandomAccessFile](https://github.com/stalary/Source-code-analysis/blob/master/note/RandomAccessFile.md)
 
 #### 并发
