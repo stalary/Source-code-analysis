@@ -4,12 +4,12 @@
 - [countDown](#countdown)
 - [getCount](#getcount)
 ### 介绍
-- 协调多个线程之间的同步
+- 协调多个线程之间的同步
 - 可用于控制多个线程的并行
 
 ### Sync
 ```java
-    // 同步控制器，使用AQS来控制状态
+    // 同步控制器，使用AQS来控制状态
     private static final class Sync extends AbstractQueuedSynchronizer {
         private static final long serialVersionUID = 4982264981922014374L;
 
