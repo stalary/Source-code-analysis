@@ -1,5 +1,5 @@
 - [介绍](#介绍)
-- [常量](#常量)
+- [const&field](#constfield)
 - [构造](#构造)
 - [size和isEmpty和clear](#sizeisemptyclear)
 - [contains](#contains)
@@ -14,7 +14,7 @@
 
 进行包装，实现对外同步。
 
-### 常量
+### const&field
 
 ```java
 

@@ -1,12 +1,12 @@
 - [介绍](#介绍)
-- [常量](#常量)
+- [const&field](#constfield)
 - [构造器和容量相关](#构造器和容量相关)
 - [size](#size)
-- [add&offer](#addoffer)
-- [poll&remove](#pollremove)
-- [get&element&peek](#getelementpeek)
+- [add&offer](#add&offer)
+- [poll&remove](#poll&remove)
+- [get&element&peek](#get&element&peek)
 - [clear](#clear)
-- [stack](#stack)
+- [Stack](#Stack)
 
 ### 介绍
 - 线程不安全。队列里不许有空元素
@@ -23,7 +23,7 @@
   5. head > tail，下标区间[head,elements.length()-1] + [0, tail-1]
 
 
-### 常量
+### const&field
 
 ```java
 
@@ -280,7 +280,7 @@ public void clear() {
 
 
 ```
-### stack
+### Stack
 
 ```
 //查看栈顶

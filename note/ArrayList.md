@@ -1,5 +1,5 @@
 - [介绍](#介绍)
-- [常量](#常量)
+- [const&field](#constfield)
 - [构造方法](#构造方法)
 - [容量相关](#容量相关)
 - [添加](#添加)
@@ -19,7 +19,7 @@
 - ArrayList继承了AbstractList，实现了List、RandomAccess、Cloneable、Serializable接口。
 - Based on Jdk8
 
-### 常量
+### const&field
 
 ```java
 //元素个数，并不一定是容量
