@@ -47,7 +47,7 @@ private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
 */
 transient Object[] elementData; 
 
-//最大容量，避免在某些虚拟机下可能引起的OutOfMemoryError
+//最大容量，避免在某些虚拟机下可能引起的OutOfMemoryError，减8的原因：数组作为一个对象，需要一定的内存存储对象头信息，对象头信息最大占用内存不可超过8字节。
 private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
 //序列化的VersionUID
