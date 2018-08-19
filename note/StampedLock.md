@@ -92,7 +92,7 @@ private transient int readerOverflow;
 
 ### tryWriteLock
 ```java
-    // 尝试获取写锁，失败直接返回0
+    // 尝试获取写锁，失败直接返回0
     public long tryWriteLock() {
         long s, next;
         return ((((s = state) & ABITS) == 0L &&
@@ -143,7 +143,7 @@ private transient int readerOverflow;
 
 ### validate
 ```java
-    // 验证从获取乐观锁开始到现在有无写锁，如果有写锁则返回false，否则返回true
+    // 验证从获取乐观锁开始到现在有无写锁，如果有写锁则返回false，否则返回true
     public boolean validate(long stamp) {
         U.loadFence();
         return (stamp & SBITS) == (state & SBITS);
