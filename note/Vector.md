@@ -1,9 +1,9 @@
-- [介绍](#介绍)
-- [添加](#添加)
-- [删除](#删除)
-- [查找](#查找)
-- [修改](#修改)
-
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [添加](#%E6%B7%BB%E5%8A%A0)
+- [删除](#%E5%88%A0%E9%99%A4)
+- [查找](#%E6%9F%A5%E6%89%BE)
+- [修改](#%E4%BF%AE%E6%94%B9)
+- [增大容量](#%E5%A2%9E%E5%A4%A7%E5%AE%B9%E9%87%8F)
 ### 介绍
 - Vector是矢量队列，继承于AbstractList，实现了List, RandomAccess, Cloneable和Serializable接口
 - Vector继承了AbstractList，实现了List接口，所以它是一个队列，支持相关的添加、删除、修改、遍历等功能
@@ -132,4 +132,30 @@ public synchronized E set(int index, E element) {
     // 返回index处原先的值
     return oldValue;
 }
+```
+
+### 增大容量
+```java
+    private void ensureCapacityHelper(int minCapacity) {
+        // 当传入容量大于当前容量时，进行扩容
+        if (minCapacity - elementData.length > 0)
+            grow(minCapacity);
+    }
+```
+
+```java
+    // 扩容
+    private void grow(int minCapacity) {
+        // 获取当前容量
+        int oldCapacity = elementData.length;
+        // 当已达到上限时，直接修改为最大容量，否则修改为当前容量+设置的增长容量
+        int newCapacity = oldCapacity + ((capacityIncrement > 0) ?
+                                         capacityIncrement : oldCapacity);
+        if (newCapacity - minCapacity < 0)
+            newCapacity = minCapacity;
+        if (newCapacity - MAX_ARRAY_SIZE > 0)
+            newCapacity = hugeCapacity(minCapacity);
+        // 使用复制的方法进行扩容
+        elementData = Arrays.copyOf(elementData, newCapacity);
+    }
 ```
