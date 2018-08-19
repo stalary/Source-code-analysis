@@ -148,7 +148,7 @@ public synchronized E set(int index, E element) {
     private void grow(int minCapacity) {
         // 获取当前容量
         int oldCapacity = elementData.length;
-        // 当已达到上限时，直接修改为最大容量，否则修改为当前容量+设置的增长容量
+        // 当已达到上限时，直接修改为最大容量，否则修改为当前容量+设置的增长容量
         int newCapacity = oldCapacity + ((capacityIncrement > 0) ?
                                          capacityIncrement : oldCapacity);
         if (newCapacity - minCapacity < 0)
