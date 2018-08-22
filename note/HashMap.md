@@ -1,9 +1,8 @@
-* [介绍](#介绍)
-* [常量](#常量)
-* [put](#put)
-* [get](#get)
-* [resize](#resize)
-
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [常量&变量](#%E5%B8%B8%E9%87%8F%E5%8F%98%E9%87%8F)
+- [put](#put)
+- [get](#get)
+- [resize](#resize)
 ### 介绍
 HashMap是一个散列表，存储的内容是键值对(key-value)映射。它继承于AbstractMap，实现了Map、Cloneable、Serializable接口。HashMap 的实现不是同步的，这意味着它不是线程安全的。它的key、value都可以为null。此外，HashMap中的映射不是有序的。
 
