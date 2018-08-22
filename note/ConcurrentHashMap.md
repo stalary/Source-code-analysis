@@ -1,15 +1,15 @@
-- [介绍](#介绍)
-- [常量](#常量)
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [常量&变量](#%E5%B8%B8%E9%87%8F%E5%8F%98%E9%87%8F)
 - [put](#put)
 - [get](#get)
 - [transfer](#transfer)
-- [tryPresize](#tryPresize)
+- [tryPresize](#trypresize)
 
 ### 介绍
   - 线程安全
   - 比Hashtable锁粒度更细
 
-### 常量
+### 常量&变量
 ```java
 // 数组的最大容量(少使用两次幂，前两位用于32位hash)
 private static final int MAXIMUM_CAPACITY = 1 << 30;

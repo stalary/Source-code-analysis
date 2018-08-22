@@ -1,5 +1,5 @@
 - [介绍](#%E4%BB%8B%E7%BB%8D)
-- [常量](#%E5%B8%B8%E9%87%8F)
+- [常量&变量](#%E5%B8%B8%E9%87%8F%E5%8F%98%E9%87%8F)
 - [writeLock](#writelock)
 - [tryWriteLock](#trywritelock)
 - [readLock](#readlock)
@@ -23,7 +23,7 @@
 - 由版本和模式组成
 - 读写锁的优化(读少写多的情况下，读写锁会发生写入线程的饥饿问题)
 
-### 常量
+### 常量&变量
 ```java
 // 当前可用的cpu数量，用于控制自旋
 private static final int NCPU = Runtime.getRuntime().availableProcessors();

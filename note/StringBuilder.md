@@ -1,5 +1,5 @@
 - [介绍](#%E4%BB%8B%E7%BB%8D)
-- [常量](#%E5%B8%B8%E9%87%8F)
+- [常量&变量](#%E5%B8%B8%E9%87%8F%E5%8F%98%E9%87%8F)
 - [append](#append)
 - [delete](#delete)
 - [insert](#insert)
@@ -10,7 +10,7 @@
 - 线程不安全
 - StringBuffer就是把StringBuilder的方法都加上了synchronized，不再赘述
 
-### 常量
+### 常量&变量
 ```java
 // 继承自AbstractStringBuilder，用于存储字符值
 char[] value;

@@ -7,7 +7,7 @@
 ### 介绍
 HashMap是一个散列表，存储的内容是键值对(key-value)映射。它继承于AbstractMap，实现了Map、Cloneable、Serializable接口。HashMap 的实现不是同步的，这意味着它不是线程安全的。它的key、value都可以为null。此外，HashMap中的映射不是有序的。
 
-### 常量
+### 常量&变量
 ```java
 // 默认初始容量必须是2的幂，这里是16
 static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;

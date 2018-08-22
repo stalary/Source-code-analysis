@@ -1,5 +1,5 @@
 - [介绍](#%E4%BB%8B%E7%BB%8D)
-- [常量](#%E5%B8%B8%E9%87%8F)
+- [常量&变量](#%E5%B8%B8%E9%87%8F%E5%8F%98%E9%87%8F)
 - [put](#put)
 - [take](#take)
 - [offer](#offer)
@@ -11,7 +11,7 @@
 - 线程安全，基于ReentrantLock实现
 - 需要设置容量
   
-### 常量
+### 常量&变量
 ```java
     // 队列中的元素
     final Object[] items;

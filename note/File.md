@@ -1,11 +1,11 @@
-- [介绍](#介绍)
-- [常量](#常量)
-- [构造](#构造)
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [常量](#%E5%B8%B8%E9%87%8F)
+- [构造](#%E6%9E%84%E9%80%A0)
 - [is](#is)
 - [get](#get)
 - [list](#list)
 - [toString](#tostring)
-- [其他](#其他)
+- [其他](#%E5%85%B6%E4%BB%96)
 
 
 ### 介绍
@@ -27,8 +27,7 @@ File类抽象了文件和目录，其封装的并不是一个真正存在的文�
 
 ### 常量
 
-```
-
+```java
 /*
 代表平台的本地文件系统的FileSystem对象。
 FileSystem只是抽象类，真正操作的是他的实现类，
@@ -50,7 +49,7 @@ public static final char separatorChar = fs.getSeparator();
 
 ### 构造
 
-```
+```java
 
 //给定路径名，转换为抽象路径名
 public File(String pathname) {
@@ -112,7 +111,7 @@ public File(URI uri);
 
 ### is
 
-```
+```java
 
 //检查抽象路径是不是个绝对路径
 public boolean isAbsolute() {
@@ -147,7 +146,7 @@ public boolean isHidden();
 
 ### get
 
-```
+```java
 //获取绝对路径，解析由FileSystem的具体实现类实现
 public String getAbsolutePath() {
     return fs.resolve(this);
@@ -191,7 +190,7 @@ public File getAbsoluteFile() {
 
 ### list 
 
-```
+```java
 
 //返回目录下面的path
 public String[] list() {
@@ -224,7 +223,7 @@ public String[] list(FilenameFilter filter) {
 
 ### toString
 
-```
+```java
 //可以看到，直接返回了path
 public String toString() {
     return getPath();
@@ -234,7 +233,7 @@ public String toString() {
 
 ### 其他
 
-```
+```java
 //创建一个目录
 public boolean mkdir() {
     SecurityManager security = System.getSecurityManager();
