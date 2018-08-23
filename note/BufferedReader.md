@@ -1,3 +1,13 @@
+- [介绍](#介绍)
+- [const&field](#constfield)
+- [constructor](#constructor)
+- [ensureOpen](#ensureOpen)
+- [mark&reset](#markreset)
+- [fill](#fill)
+- [read](#read)
+- [readline](#readline)
+
+
 ### 介绍
 
 BufferedReader继承自Reader，提供高效字符读取。缓冲区的大小可以指定，否则使用默认大小。大多数情况下默认大小就够用的。
@@ -14,7 +24,8 @@ private Reader in;
 // 缓冲区  
 private char cb[];  
 
-//nChars:缓冲区字符总数; nextChar:要读的下一个字符的位置 private int nChars, nextChar;  
+//nChars:缓冲区字符总数;nextChar:要读的下一个字符的位置
+private int nChars, nextChar;  
 
 // 标记无效
 private static final int INVALIDATED = -2;  
@@ -109,6 +120,186 @@ public void reset() throws IOException {
         //重置
         nextChar = markedChar;
         skipLF = markedSkipLF;
+    }
+}
+
+
+```
+
+### fill 
+
+```java
+
+//填充缓冲区，如果标记有效就要考虑在内
+private void fill() throws IOException {
+    //新读入的存放的位置
+    int dst;
+    //无标记或标记无效
+    if (markedChar <= UNMARKED) {
+        dst = 0;
+    } else {
+        //标记有效
+        int delta = nextChar - markedChar;
+        if (delta >= readAheadLimit) {
+            //超出了标记有效的范围，设为无效
+            markedChar = INVALIDATED;
+            readAheadLimit = 0;
+            dst = 0;
+        } else {
+            if (readAheadLimit <= cb.length) {
+                //将标记的位置拷贝到头上
+                System.arraycopy(cb, markedChar, cb, 0, delta);
+                markedChar = 0;
+                dst = delta;
+            } else {
+                /* Reallocate buffer to accommodate read-ahead limit */
+                //缓冲区容量比readaheadlimit小，就开一块新空间
+                char ncb[] = new char[readAheadLimit];
+                System.arraycopy(cb, markedChar, ncb, 0, delta);
+                cb = ncb;
+                markedChar = 0;
+                dst = delta;
+            }
+            //fill方法只会在nextChar>=nChars时才会调用，所以此时缓冲区内字符至少读过一次了
+            nextChar = nChars = delta;
+        }
+    }
+
+    int n;
+    do {
+        //从Reader中读一批字符过来，放满缓冲区
+        n = in.read(cb, dst, cb.length - dst);
+    } while (n == 0);
+    if (n > 0) {
+        nChars = dst + n;
+        nextChar = dst;
+    }
+}
+
+```
+
+### read
+
+```java
+
+//读一个
+public int read() throws IOException {
+    synchronized (lock) {
+        ensureOpen();
+        for (;;) {
+            if (nextChar >= nChars) {
+                fill();
+                //这时候输入流读光了
+                if (nextChar >= nChars)
+                    return -1;
+            }
+            if (skipLF) {
+                skipLF = false;
+                //跳过换行
+                if (cb[nextChar] == '\n') {
+                    nextChar++;
+                    continue;
+                }
+            }
+            return cb[nextChar++];
+        }
+    }
+}
+
+//读到cbuf中
+public int read(char cbuf[], int off, int len) throws IOException {
+    synchronized (lock) {
+        ensureOpen();
+        if ((off < 0) || (off > cbuf.length) || (len < 0) ||
+            ((off + len) > cbuf.length) || ((off + len) < 0)) {
+            throw new IndexOutOfBoundsException();
+        } else if (len == 0) {
+            return 0;
+        }
+
+        int n = read1(cbuf, off, len);
+        if (n <= 0) return n;
+        //没有读够给定长度，且in可读，读完剩下的(之前可能阻塞了)
+        while ((n < len) && in.ready()) {
+            int n1 = read1(cbuf, off + n, len - n);
+            if (n1 <= 0) break;
+            n += n1;
+        }
+        return n;
+    }
+}
+
+```
+
+### readline
+
+```java
+
+//读取一行文本
+String readLine(boolean ignoreLF) throws IOException {
+    StringBuffer s = null;
+    int startChar;
+
+    synchronized (lock) {
+        ensureOpen();
+        boolean omitLF = ignoreLF || skipLF;
+
+    bufferLoop:
+        for (;;) {
+
+            if (nextChar >= nChars)
+                fill();
+            //到达EOF
+            if (nextChar >= nChars) {
+                if (s != null && s.length() > 0)
+                    return s.toString();
+                else
+                    return null;
+            }
+            boolean eol = false;
+            char c = 0;
+            int i;
+
+            //跳过\n
+            if (omitLF && (cb[nextChar] == '\n'))
+                nextChar++;
+            skipLF = false;
+            omitLF = false;
+
+        charLoop:
+            for (i = nextChar; i < nChars; i++) {
+                c = cb[i];
+                //找到换行符的位置
+                if ((c == '\n') || (c == '\r')) {
+                    eol = true;
+                    break charLoop;
+                }
+            }
+
+            startChar = nextChar;
+            nextChar = i;
+
+            if (eol) {
+                String str;
+                 //读取到的一行
+                if (s == null) {
+                    str = new String(cb, startChar, i - startChar);
+                } else {
+                    s.append(cb, startChar, i - startChar);
+                    str = s.toString();
+                }
+                nextChar++;
+                //标记要下次跳过\r后的\n
+                if (c == '\r') {
+                    skipLF = true;
+                }
+                return str;
+            }
+
+            if (s == null)
+                s = new StringBuffer(defaultExpectedLineLength);
+            s.append(cb, startChar, i - startChar);
+        }
     }
 }
 
