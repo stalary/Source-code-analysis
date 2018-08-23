@@ -35,6 +35,8 @@
 
 #### I/O
 
+[BufferedReader](https://github.com/stalary/Source-code-analysis/blob/master/note/BufferedReader.md)
+
 [File](https://github.com/stalary/Source-code-analysis/blob/master/note/File.md)
 
 [InputStreamReader](https://github.com/stalary/Source-code-analysis/blob/master/note/InputStreamReader.md)
