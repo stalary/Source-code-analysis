@@ -91,7 +91,7 @@ User(id=3, username=claire) is not allowed to enter
 ```
 
 ### jdk动态代理
-动态代理不需要实现接口，但是需要指定接口类型，即目标对象需要实现接口
+动态代理不需要实现接口，但是需要指定接口类型，即目标对象需要实现接口
 ```java
 // ClassLoader loader：目标对象使用的类加载器
 // Class<?>[] interfaces：目标对象实现的接口类型
@@ -202,7 +202,7 @@ User(id=3, username=claire) enter ZooImpl
 ```
 
 ### cglib动态代理
-可使用在目标对象未使用接口时，但是需要依赖于cglib的jar包
+可使用在目标对象未使用接口时，但是需要依赖于cglib的jar包
 ```java
 // 代理类，实现MethodInterceptor
 public class ProxyCGLIB implements MethodInterceptor {
