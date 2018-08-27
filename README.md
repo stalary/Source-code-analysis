@@ -50,4 +50,4 @@
 [CountDownLatch](https://github.com/stalary/Source-code-analysis/blob/master/note/CountDownLatch.md)
 
 #### 设计模式
-
+[Proxy](https://github.com/stalary/Source-code-analysis/blob/master/note/Proxy.md)
