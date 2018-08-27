@@ -14,9 +14,7 @@
 ```java
 // 枚举
 public enum ZooEnum {
-
     Instance;
-
 
     @Override
     public String toString() {
