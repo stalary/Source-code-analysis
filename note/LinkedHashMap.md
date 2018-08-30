@@ -1,4 +1,3 @@
-
 ### 介绍
 - Key和Value都允许空
 - 有序
@@ -32,7 +31,7 @@
         // 从头到尾遍历双向链表
         for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
             V v = e.value;
-            // 直接判断相等或者对象时，使用equals判断值相等时返回true
+            // 直接判断相等或者对象时，使用equals判断值相等时返回true
             if (v == value || (value != null && value.equals(v)))
                 return true;
         }
@@ -60,8 +59,10 @@
     // a b c d e
     // get(a),将a放到末尾
     // b c d e a
-    // 第二种情况，插入节点是尾节点
-    // 
+    // 第二种情况，插入节点不是头节点
+    // a b c d e
+    // get(b),将b放到末尾
+    // a c d e b
     // 将元素移动到最后一个
     void afterNodeAccess(Node<K,V> e) { // move node to last
         LinkedHashMap.Entry<K,V> last;
