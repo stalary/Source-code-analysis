@@ -23,6 +23,8 @@
 
 [HashSet](https://github.com/stalary/Source-code-analysis/blob/master/note/HashSet.md)
 
+[Properties](https://github.com/stalary/Source-code-analysis/blob/master/note/Properties.md)
+
 [TreeMap](https://github.com/stalary/Source-code-analysis/blob/master/note/TreeMap.md)
 
 [TreeSet](https://github.com/stalary/Source-code-analysis/blob/master/note/TreeSet.md)
