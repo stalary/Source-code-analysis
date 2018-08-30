@@ -59,3 +59,5 @@
 [Singleton](https://github.com/stalary/Source-code-analysis/blob/master/note/Singleton.md)
 
 [Delegate](https://github.com/stalary/Source-code-analysis/blob/master/note/Delegate.md)
+
+[Strategy](https://github.com/stalary/Source-code-analysis/blob/master/note/Strategy.md)
