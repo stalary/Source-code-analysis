@@ -19,6 +19,8 @@
 
 [HashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/HashMap.md)
 
+[LinkedHashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/LinkedHashMap.md)
+
 [HashSet](https://github.com/stalary/Source-code-analysis/blob/master/note/HashSet.md)
 
 [TreeMap](https://github.com/stalary/Source-code-analysis/blob/master/note/TreeMap.md)
