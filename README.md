@@ -55,6 +55,8 @@
 
 [CountDownLatch](https://github.com/stalary/Source-code-analysis/blob/master/note/CountDownLatch.md)
 
+[CyclicBarrier](https://github.com/stalary/Source-code-analysis/blob/master/note/CyclicBarrier.md)
+
 #### 设计模式
 [Proxy](https://github.com/stalary/Source-code-analysis/blob/master/note/Proxy.md)
 
