@@ -63,3 +63,5 @@
 [Delegate](https://github.com/stalary/Source-code-analysis/blob/master/note/Delegate.md)
 
 [Strategy](https://github.com/stalary/Source-code-analysis/blob/master/note/Strategy.md)
+
+[Template](https://github.com/stalary/Source-code-analysis/blob/master/note/Template.md)
