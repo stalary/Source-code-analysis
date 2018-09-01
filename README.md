@@ -19,7 +19,7 @@
 
 [HashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/HashMap.md)
 
-[LinkedHashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/LinkedHashMap.md)
+[LinkedHashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/LinkedHashMap.md)   # afterNodeAccess中有一处有疑问，求大神解答
 
 [HashSet](https://github.com/stalary/Source-code-analysis/blob/master/note/HashSet.md)
 
