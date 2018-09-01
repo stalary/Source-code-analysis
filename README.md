@@ -67,3 +67,5 @@
 [Strategy](https://github.com/stalary/Source-code-analysis/blob/master/note/Strategy.md)
 
 [Template](https://github.com/stalary/Source-code-analysis/blob/master/note/Template.md)
+
+[Prototype](https://github.com/stalary/Source-code-analysis/blob/master/note/Prototype.md)
