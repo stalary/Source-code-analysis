@@ -1,11 +1,11 @@
 ### 介绍
-
 - 可以看做操作位的Vector，容量可以动态变化。
 - 实现了Cloneable和Serializable接口。
 - 里面的位默认都是false。
 - 一个BitSet可以通过逻辑AND、OR、XOR修改其他BitSet的内容
-- 线程不安全
 - java.util下的，实际上不属于集合框架，但是和List比较像
+- 线程不安全
+
 
 ### const&field
 
@@ -40,13 +40,13 @@ private transient boolean sizeIsSticky = false;
 
 ```java
 
-//默认
+// 默认
 public BitSet() {
     initWords(BITS_PER_WORD);
     sizeIsSticky = false;
 }
 
- //nbits为至少要存的位的个数
+ // nbits为至少要存的位的个数
 public BitSet(int nbits) {
     if (nbits < 0)
         throw new NegativeArraySizeException("nbits < 0: " + nbits);
@@ -77,9 +77,138 @@ private void initWords(int nbits) {
     words = new long[wordIndex(nbits-1) + 1];
 }
 
-//计算需要填满几个long
+// 计算需要填满几个long
 private static int wordIndex(int bitIndex) {  
     return bitIndex >> ADDRESS_BITS_PER_WORD;  
 }  
+
+
+```
+
+
+### valueOf
+
+```java
+
+// 给定数据，构造返回一个BitSet
+public static BitSet valueOf(long[] longs);
+
+public static BitSet valueOf(LongBuffer lb);
+
+public static BitSet valueOf(byte[] bytes);
+
+public static BitSet valueOf(ByteBuffer bb);
+
+```
+
+### get
+
+```java
+
+public boolean get(int bitIndex) {
+    if (bitIndex < 0)
+        throw new IndexOutOfBoundsException("bitIndex < 0: " + bitIndex);
+    checkInvariants();
+    // 定位
+    int wordIndex = wordIndex(bitIndex);
+    // 使用与操作判断
+    return (wordIndex < wordsInUse)
+        && ((words[wordIndex] & (1L << bitIndex)) != 0);
+}
+
+
+```
+
+### set
+
+set用于设置给定位置的位，默认设置为true，也可以指定。
+支持范围fromIndex到toIndex。
+
+```java
+
+
+public void set(int bitIndex) {
+    if (bitIndex < 0)
+        throw new IndexOutOfBoundsException("bitIndex < 0: " + bitIndex);
+    // 定位到long[]中的位置
+    int wordIndex = wordIndex(bitIndex);
+    // 扩容操作
+    expandTo(wordIndex);
+    // 不管是不是1，结果都是1
+    words[wordIndex] |= (1L << bitIndex); 
+    checkInvariants();
+}
+
+public void set(int bitIndex, boolean value) {
+    if (value)
+        set(bitIndex);
+    else
+        // 设为0
+        clear(bitIndex);
+}
+
+// 范围操作
+public void set(int fromIndex, int toIndex) {
+    checkRange(fromIndex, toIndex);
+    // 直接退出
+    if (fromIndex == toIndex)
+        return;
+        
+    // 定位
+    int startWordIndex = wordIndex(fromIndex);
+    int endWordIndex   = wordIndex(toIndex - 1);
+    // 保证容量
+    expandTo(endWordIndex);
+    // 计算掩码
+    long firstWordMask = WORD_MASK << fromIndex;
+    long lastWordMask  = WORD_MASK >>> -toIndex;
+    // 都在同一个word范围内
+    if (startWordIndex == endWordIndex) {
+        // 两个掩码与运算，然后或运算
+        words[startWordIndex] |= (firstWordMask & lastWordMask);
+    } else {
+        // 否则 两端对掩码进行或操作，中间置为1
+        
+        // 开始
+        words[startWordIndex] |= firstWordMask;
+
+        // 中间全设为1
+        for (int i = startWordIndex+1; i < endWordIndex; i++)
+            words[i] = WORD_MASK;
+        
+        // 结束
+        words[endWordIndex] |= lastWordMask;
+    }
+
+    checkInvariants();
+}
+
+```
+
+### expandTo&ensureCapacity
+
+```java
+
+// 扩容
+private void expandTo(int wordIndex) {
+    int wordsRequired = wordIndex+1;
+    if (wordsInUse < wordsRequired) {
+        ensureCapacity(wordsRequired);
+        wordsInUse = wordsRequired;
+    }
+}
+
+// 保证空间够用
+private void ensureCapacity(int wordsRequired) {
+    // 小于实际所需
+    if (words.length < wordsRequired) {
+        // 2倍扩容或扩容到实际长度，两者取其大
+        int request = Math.max(2 * words.length, wordsRequired);
+        words = Arrays.copyOf(words, request);
+        sizeIsSticky = false;
+    }
+}
+
+
 
 ```
