@@ -1,4 +1,17 @@
+- [介绍](#介绍)
+- [const&field](constfield)
+- [构造](#构造)
+- [valueOf](valueof)
+- [get](#get)
+- [set](#set)
+- [expandTo&ensureCapacity](#expandtoensurecapacity)
+- [flip](#flip)
+- [nextSetBit&nextClearBit](#nextSetBitnextClearBit)
+- [and&or&xor](#andorxor)
+- [长度和容量](#长度和容量)
+
 ### 介绍
+
 - 可以看做操作位的Vector，容量可以动态变化。
 - 实现了Cloneable和Serializable接口。
 - 里面的位默认都是false。
@@ -34,7 +47,6 @@ private transient boolean sizeIsSticky = false;
 
 
 ```
-
 
 ### 构造
 
@@ -210,5 +222,109 @@ private void ensureCapacity(int wordsRequired) {
 }
 
 
+```
+
+### flip
+
+反转该位，1设为0，0设为1，借用xor运算
+
+```java
+
+public void flip(int bitIndex) {
+    if (bitIndex < 0)
+        throw new IndexOutOfBoundsException("bitIndex < 0: " + bitIndex);
+
+    int wordIndex = wordIndex(bitIndex);
+    expandTo(wordIndex);
+    
+    words[wordIndex] ^= (1L << bitIndex);
+
+    recalculateWordsInUse();
+    checkInvariants();
+}
+
+```
+### nextSetBit&nextClearBit
+这两个方法分别用于找给定索引位置之后的下一个1(Set)或者0(Clear), 这里只贴一个nextSetBit
+
+```java
+public int nextSetBit(int fromIndex) {
+    if (fromIndex < 0)
+        throw new IndexOutOfBoundsException("fromIndex < 0: " + fromIndex);
+
+    checkInvariants();
+
+    int u = wordIndex(fromIndex);
+    // 超出范围肯定没有了
+    if (u >= wordsInUse)
+        return -1;
+
+    long word = words[u] & (WORD_MASK << fromIndex);
+    // 依次寻找
+    while (true) {
+        if (word != 0)
+            //带上前面的
+            return (u * BITS_PER_WORD) + Long.numberOfTrailingZeros(word);
+        if (++u == wordsInUse)
+            return -1;
+        word = words[u];
+    }
+}
+
+
+
+```
+
+### and&or&xor
+
+and、or、xor的实现类似，只贴一个and。操作的结果放在本对象里。
+
+```java
+
+public void and(BitSet set) {
+    if (this == set)
+        return;
+    
+    // 多出来的都设成0
+    while (wordsInUse > set.wordsInUse)
+        words[--wordsInUse] = 0;
+
+    // 依次and操作
+    for (int i = 0; i < wordsInUse; i++)
+        words[i] &= set.words[i];
+    
+    // 重新计算wordsInUse
+    recalculateWordsInUse();
+    checkInvariants();
+}
+
+
+```
+
+
+### 长度和容量
+
+```java
+
+public int size() {
+    // 所以说这里返回的所占的空间能存储的bit位数，BITS_PER_WORD的倍数
+    return words.length * BITS_PER_WORD;
+}
+
+public int length() {
+    if (wordsInUse == 0)
+        return 0;
+    // 返回实际有效的，减去后面的0位
+    return BITS_PER_WORD * (wordsInUse - 1) +
+        (BITS_PER_WORD - Long.numberOfLeadingZeros(words[wordsInUse - 1]));
+}
+
+// 返回1的个数
+public int cardinality() {
+    int sum = 0;
+    for (int i = 0; i < wordsInUse; i++)
+        sum += Long.bitCount(words[i]);
+    return sum;
+}
 
 ```
