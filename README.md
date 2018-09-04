@@ -77,3 +77,5 @@
 [Prototype](https://github.com/stalary/Source-code-analysis/blob/master/note/Prototype.md)
 
 [Factory](https://github.com/stalary/Source-code-analysis/blob/master/note/Factory.md)
+
+[Builder](https://github.com/stalary/Source-code-analysis/blob/master/note/Builder.md)
