@@ -13,6 +13,8 @@
 
 [ArrayBlockingQueue](https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayBlockingQueue.md)
 
+[BitSet](https://github.com/stalary/Source-code-analysis/blob/master/note/BitSet.md)
+
 [CopyOnWriteArrayList](https://github.com/stalary/Source-code-analysis/blob/master/note/CopyOnWriteArrayList.md)
 
 [Collections](https://github.com/stalary/Source-code-analysis/blob/master/note/Collections.md)
@@ -75,5 +77,3 @@
 [Prototype](https://github.com/stalary/Source-code-analysis/blob/master/note/Prototype.md)
 
 [Factory](https://github.com/stalary/Source-code-analysis/blob/master/note/Factory.md)
-
-[Callback](https://github.com/stalary/Source-code-analysis/blob/master/note/Callback.md)
