@@ -81,3 +81,5 @@
 [Factory](https://github.com/stalary/Source-code-analysis/blob/master/note/Factory.md)
 
 [Builder](https://github.com/stalary/Source-code-analysis/blob/master/note/Builder.md)
+
+[Adapter](https://github.com/stalary/Source-code-analysis/blob/master/note/Adapter.md)
