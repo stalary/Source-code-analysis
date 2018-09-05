@@ -1,3 +1,18 @@
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [常量和变量](#%E5%B8%B8%E9%87%8F%E5%92%8C%E5%8F%98%E9%87%8F)
+- [同步器](#%E5%90%8C%E6%AD%A5%E5%99%A8)
+- [tryRelease](#tryrelease)
+- [tryReleaseShared](#tryreleaseshared)
+- [tryAcquire](#tryacquire)
+- [tryAcquireShared](#tryacquireshared)
+- [fullTryAcquireShared](#fulltryacquireshared)
+- [tryWriteLock](#trywritelock)
+- [tryReadLock](#tryreadlock)
+- [NonfairSync](#nonfairsync)
+- [FairSync](#fairsync)
+- [ReadLock](#readlock)
+- [WriteLock](#writelock)
+- [isFair](#isfair)
 ### 介绍
 - 读写锁的实现
 - 分为公平和非公平模式
@@ -66,6 +81,7 @@
                     // 否则-1
                     firstReaderHoldCount--;
             } else {
+                // firstReader不是当前线程时，重入更新缓存
                 // 获取锁的计数器
                 HoldCounter rh = cachedHoldCounter;
                 // 当计数器为null或者不是当前线程的计数器时，从ThreadLocal获取
@@ -165,7 +181,7 @@
                     // 重入数量+1
                     firstReaderHoldCount++;
                 } else {
-                    // 否则获取当前线程的状态进行修改，然后将锁的数量+1
+                    // firstReader不是当前线程时，重入更新缓存
                     HoldCounter rh = cachedHoldCounter;
                     if (rh == null || rh.tid != getThreadId(current))
                         cachedHoldCounter = rh = readHolds.get();
@@ -188,18 +204,17 @@
             for (;;) {
                 // 获取当前状态
                 int c = getState();
-                // 当有别的线程获得写锁时，返回-1
+                // 当前线程不是写锁的持有者，返回-1
                 if (exclusiveCount(c) != 0) {
                     if (getExclusiveOwnerThread() != current)
                         return -1;
-                    // 否则保持独占锁，会阻塞在这里，可能造成死锁？有疑问
-                // 当读线程需要阻塞时
+                // 出现持有写锁，申请写锁的操作，而且其他线程也在申请写锁，只能结束然后去排队，否则造成死锁
                 } else if (readerShouldBlock()) {
                     // 第一个获取
                     if (firstReader == current) {
                         // assert firstReaderHoldCount > 0;
                     } else {
-                        // 不是当前线程时，需要获取当前线程的状态？有疑问
+                        // firstReader不是当前线程时，重入更新缓存
                         if (rh == null) {
                             rh = cachedHoldCounter;
                             if (rh == null || rh.tid != getThreadId(current)) {
@@ -225,7 +240,7 @@
                         // 增加重入次数
                         firstReaderHoldCount++;
                     } else {
-                        // 当前线程不是第一次获取读锁的线程时，使用当前线程的计数器
+                        // firstReader不是当前线程时，重入更新缓存
                         if (rh == null)
                             rh = cachedHoldCounter;
                         if (rh == null || rh.tid != getThreadId(current))
@@ -240,3 +255,142 @@
             }
         }
 ```
+
+### tryWriteLock
+```java
+        // 尝试获取写锁
+        final boolean tryWriteLock() {
+            // 获取当前线程
+            Thread current = Thread.currentThread();
+            // 获取当前状态
+            int c = getState();
+            // 存在锁
+            if (c != 0) {
+                // 不存在写锁(存在读锁，读写互斥)或者当前线程不是独占线程时获取失败
+                int w = exclusiveCount(c);
+                if (w == 0 || current != getExclusiveOwnerThread())
+                    return false;
+                // 写锁达到最大数量时，抛出error
+                if (w == MAX_COUNT)
+                    throw new Error("Maximum lock count exceeded");
+            }
+            // 当不存在锁时，cas成功更新状态时获取成功
+            if (!compareAndSetState(c, c + 1))
+                return false;
+            setExclusiveOwnerThread(current);
+            return true;
+        }
+```
+
+### tryReadLock
+```java
+        // 尝试获取读锁
+         // 与tryAcquireShared基本一致，只是没有判断readerShouldBlock，直接采用非公平模式
+        final boolean tryReadLock() {
+            Thread current = Thread.currentThread();
+            for (;;) {
+                int c = getState();
+                if (exclusiveCount(c) != 0 &&
+                    getExclusiveOwnerThread() != current)
+                    return false;
+                int r = sharedCount(c);
+                if (r == MAX_COUNT)
+                    throw new Error("Maximum lock count exceeded");
+                if (compareAndSetState(c, c + SHARED_UNIT)) {
+                    if (r == 0) {
+                        firstReader = current;
+                        firstReaderHoldCount = 1;
+                    } else if (firstReader == current) {
+                        firstReaderHoldCount++;
+                    } else {
+                        HoldCounter rh = cachedHoldCounter;
+                        if (rh == null || rh.tid != getThreadId(current))
+                            cachedHoldCounter = rh = readHolds.get();
+                        else if (rh.count == 0)
+                            readHolds.set(rh);
+                        rh.count++;
+                    }
+                    return true;
+                }
+            }
+        }
+```
+
+### NonfairSync
+```java
+    // 非公平同步器，这个非公平策略的同步器是写锁优先的，申请写锁时总是不阻塞
+    static final class NonfairSync extends Sync {
+        private static final long serialVersionUID = -8159625535654395037L;
+        final boolean writerShouldBlock() {
+            // 写锁可以直接进入
+            return false;
+        }
+        final boolean readerShouldBlock() {
+            // 用于避免写线程饥饿，如果线程临时出现在等待队列的头部则阻塞
+            return apparentlyFirstQueuedIsExclusive();
+        }
+    }
+```
+
+### FairSync
+```java
+    // 公平同步器，如果线程准备获取锁时，同步队列里有等待线程，则阻塞获取锁，不管是否是重入
+    static final class FairSync extends Sync {
+        private static final long serialVersionUID = -2274990926593161451L;
+        final boolean writerShouldBlock() {
+            // 获取前继节点
+            return hasQueuedPredecessors();
+        }
+        final boolean readerShouldBlock() {
+            // 获取前继节点
+            return hasQueuedPredecessors();
+        }
+    }
+```
+
+### ReadLock
+```java
+    // 读锁
+    public static class ReadLock implements Lock, java.io.Serializable {
+        // 获取读锁
+        public void lock() {
+            sync.acquireShared(1);
+        }
+        // 尝试获取读锁(非公平)
+        public boolean tryLock() {
+            return sync.tryReadLock();
+        }
+        // 释放读锁
+        public void unlock() {
+            sync.releaseShared(1);
+        }
+    }
+```
+
+### WriteLock
+```java
+    // 写锁
+    public static class WriteLock implements Lock, java.io.Serializable {
+        // 获取写锁
+        public void lock() {
+            sync.acquire(1);
+        }
+        // 尝试获取写锁(非公平)
+        public boolean tryLock( ) {
+            return sync.tryWriteLock();
+        }
+        // 释放写锁
+        public void unlock() {
+            sync.release(1);
+        }
+    }
+```
+
+### isFair
+```java
+    // 判断当前是否是公平锁
+    public final boolean isFair() {
+        return sync instanceof FairSync;
+    }
+```
+
