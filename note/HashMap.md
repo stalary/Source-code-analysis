@@ -1,5 +1,6 @@
 - [介绍](#%E4%BB%8B%E7%BB%8D)
 - [常量&变量](#%E5%B8%B8%E9%87%8F%E5%8F%98%E9%87%8F)
+- [hash](#hash)
 - [put](#put)
 - [get](#get)
 - [resize](#resize)
@@ -26,6 +27,18 @@ static final int UNTREEIFY_THRESHOLD = 6;
 // 进行树化的最小容量，防止在调整容量和形态时发生冲突
 static final int MIN_TREEIFY_CAPACITY = 64;
 ```
+
+### hash
+```java
+    static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+```
+![过程图](https://upload-images.jianshu.io/upload_images/9252736-e25f61e6ea1c2b90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+当key为null时直接返回0，key的hash值高16位不变，低16位与高16位异或作为key的最终hash值。如此设置的原因是因为下标的计算是：n = table.length; index = (n-1) & hash;
+
+table的长度都是2的幂，因此index仅与hash值的低n位有关，hash值的高位都被与操作置为0了，所以异或降低冲突
 
 ### put
 ```java
