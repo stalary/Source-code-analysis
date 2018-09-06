@@ -83,3 +83,5 @@
 [Builder](https://github.com/stalary/Source-code-analysis/blob/master/note/Builder.md)
 
 [Adapter](https://github.com/stalary/Source-code-analysis/blob/master/note/Adapter.md)
+
+[Bridge](https://github.com/stalary/Source-code-analysis/blob/master/note/Bridge.md)
