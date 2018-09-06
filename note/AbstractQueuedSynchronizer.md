@@ -16,19 +16,19 @@ static final class Node {
         // 表示当前线程被取消
         static final int CANCELLED =  1;
         
-        // 表示当前节点的后继节点包含的线程需要运行
+        // 表示当前节点的后继节点包含的线程需要运行
         static final int SIGNAL    = -1;
         
         // 表示当前节点在等待condition，即在condition队列中
         static final int CONDITION = -2;
         
-        // 表示当前场景下后续的acquireShared能够得以执行
+        // 表示当前场景下后续的acquireShared能够得以执行
         static final int PROPAGATE = -3;
 
         // 表示节点的状态
         volatile int waitStatus;
 
-        // 前驱节点，当前节点被取消时，需要前驱节点和后继节点完成链接
+        // 前驱节点，当前节点被取消时，需要前驱节点和后继节点完成链接
         volatile Node prev;
 
         // 后继节点
@@ -37,11 +37,11 @@ static final class Node {
         // 入队列时的线程
         volatile Thread thread;
 
-        // 存储在condition队列中的后继节点
+        // 存储在condition队列中的后继节点
         Node nextWaiter;
 }
 
-// 等待队列的头节点，仅通过setHead修改，当head存在时，等待状态必然不为CANCELLED
+// 等待队列的头节点，仅通过setHead修改，当head存在时，等待状态必然不为CANCELLED
 private transient volatile Node head;
 
 // 等待队列的尾节点，仅通过enq修改
@@ -84,19 +84,19 @@ static final long spinForTimeoutThreshold = 1000L;
     private Node addWaiter(Node mode) {
         // 创建指定模式的node
         Node node = new Node(Thread.currentThread(), mode);
-        // 尝试一次快速入队
+        // 尝试一次快速入队
         Node pred = tail;
         if (pred != null) {
             // 当前node的前置节点为原尾节点
             node.prev = pred;
-            // cas尝试设置尾节点
+            // cas尝试设置尾节点
             if (compareAndSetTail(pred, node)) {
-                // 原尾节点的后置节点为当前节点
+                // 原尾节点的后置节点为当前节点
                 pred.next = node;
                 return node;
             }
         }
-        // 快速入队失败，使用enq入队
+        // 快速入队失败，使用enq入队
         enq(node);
         return node;
     }
@@ -104,7 +104,7 @@ static final long spinForTimeoutThreshold = 1000L;
 
 ### enq
 ```java
-    // 插入队列
+    // 插入队列
     private Node enq(final Node node) {
         // 自旋
         for (;;) {
@@ -115,7 +115,7 @@ static final long spinForTimeoutThreshold = 1000L;
                 if (compareAndSetHead(new Node()))
                     tail = head;
             } else {
-                // 新加入Node的前置为尾节点
+                // 新加入Node的前置为尾节点
                 node.prev = t;
                 // cas替换尾节点
                 if (compareAndSetTail(t, node)) {
