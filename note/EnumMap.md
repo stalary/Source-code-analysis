@@ -1,3 +1,9 @@
+- [介绍](#介绍)
+- [常量&变量](#常量变量)
+- [构造](#构造)
+- [get](#get)
+- [put](#put)
+
 ### 介绍
 
 - 继承AbstractMap，实现了Serializable和Cloneable，为Enum类型打造的Map实现。
@@ -85,6 +91,60 @@ public EnumMap(Map<K, ? extends V> m) {
     }
 }
 
+```
 
+### get
+
+```java
+// 检验key的合法性，然后unmaskNull后返回
+public V get(Object key) {
+    return (isValidKey(key) ?
+            unmaskNull(vals[((Enum<?>)key).ordinal()]) : null);
+}
+private boolean isValidKey(Object key) {
+    if (key == null)
+        return false;
+
+    // 比instanceof Enum效率高
+    Class<?> keyClass = key.getClass();
+    return keyClass == keyType || keyClass.getSuperclass() == keyType;
+}
+
+private V unmaskNull(Object value) {
+    // 如果返回是NULL，转成null
+    return (V)(value == NULL ? null : value);
+}
 
 ```
+
+
+### put
+
+```java
+
+public V put(K key, V value) {
+    typeCheck(key);
+    // 获取声明顺序，放入vals对应位置
+    int index = key.ordinal();
+    Object oldValue = vals[index];
+    // 如果是null，映射为NULL对象
+    vals[index] = maskNull(value)
+    ;
+    // 如果是新增的映射，size++
+    if (oldValue == null)
+        size++;
+    return unmaskNull(oldValue);
+}
+// 检出非法的类型
+private void typeCheck(K key) {
+    Class<?> keyClass = key.getClass();
+    if (keyClass != keyType && keyClass.getSuperclass() != keyType)
+        throw new ClassCastException(keyClass + " != " + keyType);
+}
+//  转化null为NULL
+private Object maskNull(Object value) {
+    return (value == null ? NULL : value);
+}
+
+```
+
