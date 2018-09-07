@@ -118,9 +118,11 @@ static final long spinForTimeoutThreshold = 1000L;
             } else {
                 // 新加入Node的前置为尾节点
                 node.prev = t;
-                // cas替换尾节点
+                // cas替换尾节点，只替换了tail的地址，局部变量t不会替换
                 if (compareAndSetTail(t, node)) {
+                    // 将新加入的节点加到末尾
                     t.next = node;
+                    // 返回前置节点，调用方需要通过
                     return t;
                 }
             }
