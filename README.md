@@ -88,6 +88,8 @@
 
 [Bridge](https://github.com/stalary/Source-code-analysis/blob/master/note/Bridge.md)
 
+[Decorator](https://github.com/stalary/Source-code-analysis/blob/master/note/Decorator.md)
+
 ### Spring源码分析
 #### spring ioc
 
