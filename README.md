@@ -21,6 +21,8 @@
 
 [ConcurrentHashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/ConcurrentHashMap.md)
 
+[EnumMap](https://github.com/stalary/Source-code-analysis/blob/master/note/EnumMap.md)
+
 [HashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/HashMap.md)
 
 [LinkedHashMap](https://github.com/stalary/Source-code-analysis/blob/master/note/LinkedHashMap.md)   # afterNodeAccess中有一处有疑问，求大神解答
