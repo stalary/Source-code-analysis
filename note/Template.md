@@ -6,6 +6,7 @@
 - 可避免代码的重复
 - 属于行为型设计模式
 
+> 今天通过模版方法来实现动物园动物的切换
 ### 算法策略
 ```java
 public abstract class Animal {
