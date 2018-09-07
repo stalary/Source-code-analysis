@@ -92,3 +92,5 @@
 #### spring ioc
 
 [FileSystemXmlApplicationContext](https://github.com/stalary/Source-code-analysis/blob/master/note/FileSystemXmlApplicationContext.md)
+
+[AbstractApplicationContext](https://github.com/stalary/Source-code-analysis/blob/master/note/AbstractApplicationContext.md)
