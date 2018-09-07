@@ -1,3 +1,11 @@
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [常量&变量](#%E5%B8%B8%E9%87%8F%E5%8F%98%E9%87%8F)
+- [修改状态](#%E4%BF%AE%E6%94%B9%E7%8A%B6%E6%80%81)
+- [acquire](#acquire)
+- [addWaiter](#addwaiter)
+- [enq](#enq)
+- [setHead](#sethead)
+- [unparkSuccessor](#unparksuccessor)
 ### 介绍
 - AQS的实现依赖内部的同步队列（FIFO双向队列）
 - 构建锁的基础框架
