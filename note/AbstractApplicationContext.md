@@ -1,8 +1,13 @@
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [refresh](#refresh)
+- [prepareRefresh](#preparerefresh)
+- [obtainFreshBeanFactory](#obtainfreshbeanfactory)
+- [refreshBeanFactory](#refreshbeanfactory)
 ### 介绍
 - ApplicationContext的抽象方法
 - 包含ioc的核心方法
 
-#### refresh
+### refresh
 1. 构建BeanFactory
 2. 注册Bean
 3. 创建Bean
