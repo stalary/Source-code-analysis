@@ -73,3 +73,72 @@
 		}
 	}
 ```
+
+### prepareRefresh
+```java
+	protected void prepareRefresh() {
+		// 获取开始时间
+		this.startupDate = System.currentTimeMillis();
+		// 关闭状态设置为false
+		this.closed.set(false);
+		// 启动状态设置为true
+		this.active.set(true);
+		// 当日志级别设置为info时，输出日志
+		if (logger.isInfoEnabled()) {
+			logger.info("Refreshing " + this);
+		}
+
+		// 初始化在上下文环境中的占位符资源
+		initPropertySources();
+
+		// 检验所有的属性是否被标记为可解析
+		getEnvironment().validateRequiredProperties();
+
+		// 早期的事件发布
+		this.earlyApplicationEvents = new LinkedHashSet<>();
+	}
+```
+
+### obtainFreshBeanFactory
+```java
+	// 通知子类刷新内部工厂，构建BeanFactory
+	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
+		// 刷新BeanFactory
+		refreshBeanFactory();
+		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+		if (logger.isDebugEnabled()) {
+			logger.debug("Bean factory for " + getDisplayName() + ": " + beanFactory);
+		}
+		return beanFactory;
+	}
+```
+
+### refreshBeanFactory
+```java
+	// 位于AbstractRefreshableApplicationContext中
+	@Override
+	protected final void refreshBeanFactory() throws BeansException {
+		// 当已经存在BeanFactory时，先进行销毁操作
+		if (hasBeanFactory()) {
+			destroyBeans();
+			closeBeanFactory();
+		}
+		try {
+			// 创建一个BeanFactory
+			DefaultListableBeanFactory beanFactory = createBeanFactory();
+			// 设置序列化
+			beanFactory.setSerializationId(getId());
+			// 定制BeanFactory
+			customizeBeanFactory(beanFactory);
+			// 加载BeanFactory
+			loadBeanDefinitions(beanFactory);
+			// 设置时增加同步，防止BeanFactory不唯一
+			synchronized (this.beanFactoryMonitor) {
+				this.beanFactory = beanFactory;
+			}
+		}
+		catch (IOException ex) {
+			throw new ApplicationContextException("I/O error parsing bean definition source for " + getDisplayName(), ex);
+		}
+	}
+```
