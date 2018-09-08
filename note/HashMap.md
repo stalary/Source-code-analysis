@@ -87,7 +87,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
             }
         }
         // 若key已经存在，用新的value替换原先的value，并将原先的value返回
-        if (e != null) { 
+        if (e != null) {
             V oldValue = e.value;
             if (!onlyIfAbsent || oldValue == null)
                 e.value = value;
@@ -179,7 +179,7 @@ final Node<K,V>[] resize() {
         // 使用resize后的容量新建一个空的table
         Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
     table = newTab;
-    // 
+    //
     if (oldTab != null) {
         // 遍历旧的table
         for (int j = 0; j < oldCap; ++j) {
@@ -203,6 +203,7 @@ final Node<K,V>[] resize() {
                     Node<K,V> next;
                     do {
                         next = e.next;
+                        // 待在原位置的节点
                         if ((e.hash & oldCap) == 0) {
                             if (loTail == null)
                                 loHead = e;
