@@ -1,90 +1,41 @@
-- [介绍](#%E4%BB%8B%E7%BB%8D)
-- [算法策略](#%E7%AE%97%E6%B3%95%E7%AD%96%E7%95%A5)
-- [模版方法](#%E6%A8%A1%E7%89%88%E6%96%B9%E6%B3%95)
+
 ### 介绍
 - 实现算法的不可变部分，将可变行为留给子类实现
 - 可避免代码的重复
 - 属于行为型设计模式
+- 模版方法在Servlet中运用在Servlet中service方法中的多个Do方法中
 
-> 今天通过模版方法来实现动物园动物的切换
-### 算法策略
+> 今天通过模版方法来实现短信的发送
+### 抽象模版
 ```java
-public abstract class Animal {
+public abstract class Note {
+    public abstract String content();
 
-    protected abstract String introduce();
-
-    protected abstract void shout();
-
-    protected abstract void doWork();
-
-    // 使用的算法
-    public void see() {
-        System.out.println(introduce() + " discover you");
-        shout();
-        doWork();
+    public void send(String receiver) {
+        System.out.println("尊敬的" + receiver);
+        System.out.println(content());
     }
 }
 ```
 
-### 模版方法
+### 具体模版
 ```java
-// 抽象模版
-public class Zoo {
+// 验证码
+public class Code extends Note {
 
-    // 引入算法
-    private Animal animal;
-
-    public Zoo(Animal animal) {
-        this.animal = animal;
-    }
-
-    public void see() {
-        animal.see();
-    }
-
-    // 提供改变可变算法的方法
-    public void changeAnimal(Animal animal) {
-        this.animal = animal;
+    @Override
+    public String content() {
+        return "您的验证码为52084";
     }
 }
 ```
 
 ```java
-// 实现类
-public class Tiger extends Animal {
+// 警告
+public class Warn extends Note {
     @Override
-    protected String introduce() {
-        return "tiger";
-    }
-
-    @Override
-    protected void shout() {
-        System.out.println("I will eat you");
-    }
-
-    @Override
-    protected void doWork() {
-        System.out.println("I want to sleep");
-    }
-}
-```
-
-```java
-// 实现类
-public class Bird extends Animal {
-    @Override
-    protected String introduce() {
-        return "bird";
-    }
-
-    @Override
-    protected void shout() {
-        System.out.println("ying ying ying");
-    }
-
-    @Override
-    protected void doWork() {
-        System.out.println("ying ying");
+    public String content() {
+        return "您的账号在济南登陆";
     }
 }
 ```
@@ -94,21 +45,20 @@ public class Bird extends Animal {
 public class Main {
 
     public static void main(String[] args) {
-        Zoo zoo = new Zoo(new Bird());
-        zoo.see();
-        // 切换算法
-        zoo.changeAnimal(new Tiger());
-        zoo.see();
+        Note code = new Code();
+        code.send("stalary");
+        System.out.println("----------------");
+        Note warn = new Warn();
+        warn.send("stalary");
     }
 }
 ```
 
 ```java
 // 测试结果
-bird discover you
-ying ying ying
-ying ying
-tiger discover you
-I will eat you
-I want to sleep
+尊敬的stalary
+您的验证码为52084
+----------------
+尊敬的stalary
+您的账号在济南登陆
 ```
