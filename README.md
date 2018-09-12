@@ -92,6 +92,8 @@
 
 [Facade](https://github.com/stalary/Source-code-analysis/blob/master/note/Facade.md)
 
+[Composite](https://github.com/stalary/Source-code-analysis/blob/master/note/Composite.md)
+
 ### Spring源码分析
 #### spring ioc
 
