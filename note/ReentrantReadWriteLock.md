@@ -81,7 +81,7 @@
                     // 否则-1
                     firstReaderHoldCount--;
             } else {
-                // firstReader不是当前线程时，重入更新缓存
+                // firstReader不是当前线程时，更新缓存
                 // 获取锁的计数器
                 HoldCounter rh = cachedHoldCounter;
                 // 当计数器为null或者不是当前线程的计数器时，从ThreadLocal获取
@@ -181,7 +181,7 @@
                     // 重入数量+1
                     firstReaderHoldCount++;
                 } else {
-                    // firstReader不是当前线程时，重入更新缓存
+                    // firstReader不是当前线程时，记录每一个线程读锁的数量
                     HoldCounter rh = cachedHoldCounter;
                     if (rh == null || rh.tid != getThreadId(current))
                         cachedHoldCounter = rh = readHolds.get();
@@ -214,7 +214,7 @@
                     if (firstReader == current) {
                         // assert firstReaderHoldCount > 0;
                     } else {
-                        // firstReader不是当前线程时，重入更新缓存
+                        // firstReader不是当前线程时，更新数量
                         if (rh == null) {
                             rh = cachedHoldCounter;
                             if (rh == null || rh.tid != getThreadId(current)) {
@@ -240,7 +240,7 @@
                         // 增加重入次数
                         firstReaderHoldCount++;
                     } else {
-                        // firstReader不是当前线程时，重入更新缓存
+                        // firstReader不是当前线程时，更新数量
                         if (rh == null)
                             rh = cachedHoldCounter;
                         if (rh == null || rh.tid != getThreadId(current))
