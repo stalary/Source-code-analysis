@@ -97,6 +97,8 @@
 [Composite](https://github.com/stalary/Source-code-analysis/blob/master/note/Composite.md)
 
 [FlyWeight](https://github.com/stalary/Source-code-analysis/blob/master/note/FlyWeight.md)
+
+[Memento](https://github.com/stalary/Source-code-analysis/blob/master/note/Memento.md)
 ### Spring源码分析
 #### spring ioc
 
