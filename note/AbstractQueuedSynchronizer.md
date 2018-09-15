@@ -6,6 +6,7 @@
 - [enq](#enq)
 - [setHead](#sethead)
 - [unparkSuccessor](#unparksuccessor)
+- [doReleaseShared](#doreleaseshared)
 ### 介绍
 - AQS的实现依赖内部的同步队列（FIFO双向队列）
 - 构建锁的基础框架
@@ -22,16 +23,16 @@ static final class Node {
         // 排他模式
         static final Node EXCLUSIVE = null;
 
-        // 表示当前线程被取消
+        // 表示当前线程被取消，处于结束状态
         static final int CANCELLED =  1;
         
-        // 表示当前节点的后继节点包含的线程需要运行
-        static final int SIGNAL    = -1;
+        // 处于唤醒状态，前继节点释放锁或者被取消就会被唤醒
+        static final int SIGNAL = -1;
         
-        // 表示当前节点在等待condition，即在condition队列中
+        // 处于等待队列中，调用singal后移到同步队列中
         static final int CONDITION = -2;
         
-        // 表示当前场景下后续的acquireShared能够得以执行
+        // 可运行状态
         static final int PROPAGATE = -3;
 
         // 表示节点的状态
@@ -130,7 +131,7 @@ static final long spinForTimeoutThreshold = 1000L;
                 if (compareAndSetTail(t, node)) {
                     // 将新加入的节点加到末尾
                     t.next = node;
-                    // 返回前置节点，调用方需要通过
+                    // 返回前置节点，调用方需要通过前置节点来唤醒后置节点
                     return t;
                 }
             }
@@ -153,29 +154,53 @@ static final long spinForTimeoutThreshold = 1000L;
 ```java
     // 唤醒后置节点
     private void unparkSuccessor(Node node) {
-        /*
-         * If status is negative (i.e., possibly needing signal) try
-         * to clear in anticipation of signalling.  It is OK if this
-         * fails or if status is changed by waiting thread.
-         */
+        // 获取节点状态
         int ws = node.waitStatus;
         if (ws < 0)
+            // 小于0时，cas设置为0
             compareAndSetWaitStatus(node, ws, 0);
 
-        /*
-         * Thread to unpark is held in successor, which is normally
-         * just the next node.  But if cancelled or apparently null,
-         * traverse backwards from tail to find the actual
-         * non-cancelled successor.
-         */
+        // unpark后继节点，一般是下一个节点，所以获取当前节点的下一个节点
         Node s = node.next;
+        // 下一个节点为空，并且等待状态>0时
         if (s == null || s.waitStatus > 0) {
             s = null;
+            // 遍历节点，找到一个需要唤醒的节点
             for (Node t = tail; t != null && t != node; t = t.prev)
                 if (t.waitStatus <= 0)
                     s = t;
         }
+        // 下一个节点不为空的时候，调用unpark
         if (s != null)
             LockSupport.unpark(s.thread);
+    }
+```
+
+###  doReleaseShared
+```java
+    private void doReleaseShared() {
+        // 自旋cas释放共享锁
+        for (;;) {
+            // 获取头节点
+            Node h = head;
+            if (h != null && h != tail) {
+                // 获取当前等待状态
+                int ws = h.waitStatus;
+                if (ws == Node.SIGNAL) {
+                    // 需要被唤醒时使用vas进行唤醒，失败后进入自旋
+                    if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
+                        continue;           
+                    // unpark后继节点
+                    unparkSuccessor(h);
+                }
+                // 当不需要等待时，设置为可执行
+                else if (ws == 0 &&
+                         !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
+                    continue;          
+            }
+            if (h == head)                   
+                // 修改成功后结束循环
+                break;
+        }
     }
 ```
