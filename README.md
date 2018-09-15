@@ -11,8 +11,6 @@
 
 [ArrayList](https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayList.md)
 
-[ArrayBlockingQueue](https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayBlockingQueue.md)
-
 [BitSet](https://github.com/stalary/Source-code-analysis/blob/master/note/BitSet.md)
 
 [CopyOnWriteArrayList](https://github.com/stalary/Source-code-analysis/blob/master/note/CopyOnWriteArrayList.md)
@@ -30,6 +28,8 @@
 [HashSet](https://github.com/stalary/Source-code-analysis/blob/master/note/HashSet.md)
 
 [Properties](https://github.com/stalary/Source-code-analysis/blob/master/note/Properties.md)
+
+[PriorityQueue](https://github.com/stalary/Source-code-analysis/blob/master/note/PriorityQueue.md)
 
 [TreeMap](https://github.com/stalary/Source-code-analysis/blob/master/note/TreeMap.md)
 
@@ -56,6 +56,8 @@
 #### 并发
 
 [AbstractQueuedSynchronizer](https://github.com/stalary/Source-code-analysis/blob/master/note/AbstractQueuedSynchronizer.md)
+
+[ArrayBlockingQueue](https://github.com/stalary/Source-code-analysis/blob/master/note/ArrayBlockingQueue.md)
 
 [StampedLock](https://github.com/stalary/Source-code-analysis/blob/master/note/StampedLock.md)
 
