@@ -99,6 +99,8 @@
 [FlyWeight](https://github.com/stalary/Source-code-analysis/blob/master/note/FlyWeight.md)
 
 [Memento](https://github.com/stalary/Source-code-analysis/blob/master/note/Memento.md)
+
+[Observer](https://github.com/stalary/Source-code-analysis/blob/master/note/Observer.md)
 ### Spring源码分析
 #### spring ioc
 
