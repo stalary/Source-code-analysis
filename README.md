@@ -103,6 +103,8 @@
 [Memento](https://github.com/stalary/Source-code-analysis/blob/master/note/Memento.md)
 
 [Observer](https://github.com/stalary/Source-code-analysis/blob/master/note/Observer.md)
+
+[Chain](https://github.com/stalary/Source-code-analysis/blob/master/note/Chain.md)
 ### Spring源码分析
 #### spring ioc
 
