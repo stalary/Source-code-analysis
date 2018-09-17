@@ -78,11 +78,11 @@ public ArrayList(int initialCapacity) {
 }
 
 
-//构造一个包含特定元素的list,用iterator依次取出collection中的元素
+//构造一个包含特定元素的list,按照迭代器取出的顺序排
 public ArrayList(Collection<? extends E> c) {
     elementData = c.toArray();
     if ((size = elementData.length) != 0) {
-        //这里有个bug，c.toArray()可能不会返回Object[] 
+        //这里有个bug，c.toArray()可能不会返回Object[] ,官方bug库编号 626052，详情请参看https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6260652
         if (elementData.getClass() != Object[].class)
             elementData = Arrays.copyOf(elementData, size, Object[].class);
     } else {
@@ -102,7 +102,7 @@ public void ensureCapacity(int minCapacity) {
     int minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)
             ? 0
             : DEFAULT_CAPACITY;
-    if (minCapacity > minExpand) {
+    if (minCapacity > minExpand) {++++++++++++++
         ensureExplicitCapacity(minCapacity);
     }
 }
