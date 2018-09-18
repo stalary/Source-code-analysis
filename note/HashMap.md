@@ -197,19 +197,24 @@ final Node<K,V>[] resize() {
                 else {
                     // 若oldTab[j]存储结构为链表
                     // 这一波操作比较巧妙，与JDK 1.7相比，既不需要重新计算hash，也避免了链表元素倒置的情况
-                    // 由于比较巧妙，还在研究当中......研究透了再补充
+                    // 不重新计算元素在数组中的位置，采用原始位置加元数组长度的方法计算得到位置
                     Node<K,V> loHead = null, loTail = null;
                     Node<K,V> hiHead = null, hiTail = null;
                     Node<K,V> next;
                     do {
                         next = e.next;
+                        // 通过位操作可以得到元素在数组中的位置是否需要移动
                         if ((e.hash & oldCap) == 0) {
+                            // 链表为空时，当前节点设置为头节点
                             if (loTail == null)
                                 loHead = e;
                             else
+                                // 不为空时，将尾节点的下一个设置为当前节点
                                 loTail.next = e;
+                            // 将尾节点设置为当前节点，移动指针
                             loTail = e;
                         }
+                        // 需要移动时
                         else {
                             if (hiTail == null)
                                 hiHead = e;
