@@ -4,7 +4,9 @@
 - [acquire](#acquire)
 - [addWaiter](#addwaiter)
 - [enq](#enq)
+- [acquireQueued](#acquirequeued)
 - [setHead](#sethead)
+- [cancelAcquire](#cancelacquire)
 - [unparkSuccessor](#unparksuccessor)
 - [doReleaseShared](#doreleaseshared)
 ### 介绍
@@ -139,6 +141,37 @@ static final long spinForTimeoutThreshold = 1000L;
     }
 ```
 
+### acquireQueued
+```java
+    // 请求入队
+    final boolean acquireQueued(final Node node, int arg) {
+        boolean failed = true;
+        try {
+            boolean interrupted = false;
+            // 自选
+            for (;;) {
+                // 获取当前节点的前置节点
+                final Node p = node.predecessor();
+                // 当前置节点为头节点并且尝试获取锁成功时，唤醒下一个节点
+                if (p == head && tryAcquire(arg)) {
+                    setHead(node);
+                    p.next = null; // help GC
+                    failed = false;
+                    return interrupted;
+                }
+                // 需要等待
+                if (shouldParkAfterFailedAcquire(p, node) &&
+                    parkAndCheckInterrupt())
+                    interrupted = true;
+            }
+        } finally {
+            // 自旋失败时，取消获取锁
+            if (failed)
+                cancelAcquire(node);
+        }
+    }
+```
+
 ### setHead
 ```java
     // 设置头节点
@@ -147,6 +180,43 @@ static final long spinForTimeoutThreshold = 1000L;
         // 设置为null，gc回收
         node.thread = null;
         node.prev = null;
+    }
+```
+
+### cancelAcquire
+```java
+    // 取消获取锁
+    private void cancelAcquire(Node node) {
+        // 节点null时直接返回
+        if (node == null)
+            return;
+        node.thread = null;
+        // 跳过被取消的前置节点
+        Node pred = node.prev;
+        while (pred.waitStatus > 0)
+            node.prev = pred = pred.prev;
+        Node predNext = pred.next;
+        // 当前节点状态设置为取消
+        node.waitStatus = Node.CANCELLED;
+        // 如果当前节点为尾节点，更新为前置节点，然后设置下一个节点
+        if (node == tail && compareAndSetTail(node, pred)) {
+            compareAndSetNext(pred, predNext, null);
+        } else {
+            int ws;
+            // 如果node既不是tail，又不是head的后继节点，将前置节点状态设置为SIGNAL，然后将node从队列中删除
+            if (pred != head &&
+                ((ws = pred.waitStatus) == Node.SIGNAL ||
+                 (ws <= 0 && compareAndSetWaitStatus(pred, ws, Node.SIGNAL))) &&
+                pred.thread != null) {
+                Node next = node.next;
+                if (next != null && next.waitStatus <= 0)
+                    compareAndSetNext(pred, predNext, next);
+            } else {
+                // 当node时head的后继节点时，直接唤醒
+                unparkSuccessor(node);
+            }
+            node.next = node;
+        }
     }
 ```
 
