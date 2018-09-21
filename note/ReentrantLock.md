@@ -103,7 +103,7 @@
                     return true;
                 }
             }
-            // 当前线程为锁的持有者时进行设置
+            // 当前线程为锁的持有者时进行设置
             else if (current == getExclusiveOwnerThread()) {
                 int nextc = c + acquires;
                 // 锁超过最大数量时抛出error
