@@ -115,3 +115,5 @@
 [AbstractApplicationContext](https://github.com/stalary/Source-code-analysis/blob/master/note/AbstractApplicationContext.md)
 
 [BeanFactory](https://github.com/stalary/Source-code-analysis/blob/master/note/BeanFactory.md)
+
+[BeanDefinition](https://github.com/stalary/Source-code-analysis/blob/master/note/BeanDefinition.md)
