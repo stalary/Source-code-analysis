@@ -1,3 +1,5 @@
+- [介绍](#%E4%BB%8B%E7%BB%8D)
+- [方法](#%E6%96%B9%E6%B3%95)
 ### 介绍
 - 用于获取资源
 - 继承了InputStreamSource
@@ -33,7 +35,7 @@ File getFile() throws IOException;
 
 // 返回InputStream对应的Channel
 default ReadableByteChannel readableChannel() throws IOException {
-	eturn Channels.newChannel(getInputStream());
+	return Channels.newChannel(getInputStream());
 }
 
 // 返回内容的长度
