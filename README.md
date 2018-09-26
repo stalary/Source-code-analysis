@@ -117,3 +117,5 @@
 [BeanFactory](https://github.com/stalary/Source-code-analysis/blob/master/note/BeanFactory.md)
 
 [BeanDefinition](https://github.com/stalary/Source-code-analysis/blob/master/note/BeanDefinition.md)
+
+[Resource](https://github.com/stalary/Source-code-analysis/blob/master/note/Resource.md)
