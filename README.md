@@ -72,6 +72,12 @@
 [ReentrantReadWriteLock](https://github.com/stalary/Source-code-analysis/blob/master/note/ReentrantReadWriteLock.md)
 
 #### 设计模式
+
+- 部分类使用了lombok注解，对对象进行简化，具体使用到的为@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)可以自行查阅具体使用方法
+
 [Proxy](https://github.com/stalary/Source-code-analysis/blob/master/note/Proxy.md)
 
 [Singleton](https://github.com/stalary/Source-code-analysis/blob/master/note/Singleton.md)
