@@ -3,7 +3,7 @@
 - [删除](#%E5%88%A0%E9%99%A4)
 - [查找](#%E6%9F%A5%E6%89%BE)
 - [修改](#%E4%BF%AE%E6%94%B9)
-- [增大容量](#%E5%A2%9E%E5%A4%A7%E5%AE%B9%E9%87%8F)
+- [扩容](#%E5%A2%9E%E5%A4%A7%E5%AE%B9%E9%87%8F)
 ### 介绍
 - Vector是矢量队列，继承于AbstractList，实现了List, RandomAccess, Cloneable和Serializable接口
 - Vector继承了AbstractList，实现了List接口，所以它是一个队列，支持相关的添加、删除、修改、遍历等功能
@@ -134,7 +134,7 @@ public synchronized E set(int index, E element) {
 }
 ```
 
-### 增大容量
+### 扩容
 ```java
     private void ensureCapacityHelper(int minCapacity) {
         // 当传入容量大于当前容量时，进行扩容
@@ -143,8 +143,7 @@ public synchronized E set(int index, E element) {
     }
 ```
 
-```java
-    // 扩容
+```java    
     private void grow(int minCapacity) {
         // 获取当前容量
         int oldCapacity = elementData.length;
@@ -155,7 +154,7 @@ public synchronized E set(int index, E element) {
             newCapacity = minCapacity;
         if (newCapacity - MAX_ARRAY_SIZE > 0)
             newCapacity = hugeCapacity(minCapacity);
-        // 使用复制的方法进行扩容
+        // 使用Arrays.copyOf方法将原数组元素复制到容量为newCapacity的新数组中
         elementData = Arrays.copyOf(elementData, newCapacity);
     }
 ```

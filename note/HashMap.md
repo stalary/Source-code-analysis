@@ -15,7 +15,8 @@ static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
 // 最大容量（必须是2的幂且小于2的30次方，如果在构造函数中传入过大的容量参数将被这个值替换）
 static final int MAXIMUM_CAPACITY = 1 << 30;
 
-// 默认负载因子，啥叫负载因子呢......略
+// 默认负载因子，啥叫负载因子呢，HashMap通过负载因子与桶的数量计算得到所能容纳的最大元素数量
+// 计算公式为threshold = capacity * loadFactor
 static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
 // 链表转化为红黑树的阈值
@@ -95,7 +96,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
             return oldValue;
         }
     }
-    // modCount+1，modCount用于实现fail-fast机制，啥叫fail-fast呢......略
+    // modCount+1，modCount用于实现fail-fast机制
     ++modCount;
     // 步骤六：插入成功后，判断实际存在的键值对数量size是否超过最大容量threshold，如果超过则调用resize扩容
     if (++size > threshold)
@@ -197,7 +198,7 @@ final Node<K,V>[] resize() {
                 else {
                     // 若oldTab[j]存储结构为链表
                     // 这一波操作比较巧妙，与JDK 1.7相比，既不需要重新计算hash，也避免了链表元素倒置的情况
-                    // 不重新计算元素在数组中的位置，采用原始位置加元数组长度的方法计算得到位置
+                    // 不需要重新计算元素在数组中的位置，采用原始位置加原数组长度的方法计算得到位置
                     Node<K,V> loHead = null, loTail = null;
                     Node<K,V> hiHead = null, hiTail = null;
                     Node<K,V> next;
