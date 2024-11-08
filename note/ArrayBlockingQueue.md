@@ -1,5 +1,5 @@
-- [介绍](#%E4%BB%8B%E7%BB%8D)
-- [常量&变量](#%E5%B8%B8%E9%87%8F%E5%8F%98%E9%87%8F)
+- [介绍](#介绍)
+- [常量\&变量](#常量变量)
 - [put](#put)
 - [take](#take)
 - [offer](#offer)
@@ -30,7 +30,7 @@
      * found in any textbook.
      */
 
-    // 所有操作
+    // 所有操作
     final ReentrantLock lock;
 
     // 用于take时的阻塞
@@ -39,7 +39,7 @@
     // 用于put时的阻塞
     private final Condition notFull;
 
-    // 共享当前活跃的迭代器状态
+    // 共享当前活跃的迭代器状态，当调用iterator才会初始化，支持弱一致性：在不抛出 ConcurrentModificationException 的情况下，确保迭代器能够继续工作。
     transient Itrs itrs = null;
 ```
 
